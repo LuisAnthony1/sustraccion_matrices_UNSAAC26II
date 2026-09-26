@@ -151,29 +151,93 @@
             --badge-color: #ffd866;
         }
 
-        /* === 6. TEMA BLANCO / CLARO (IDLE CLASSIC & GITHUB LIGHT) === */
-        .tema-blanco {
+        /* === FONDO BLANCO PARA EL VISOR DE CODIGO (CONSERVA LOS 5 TEMAS) === */
+        .ventana-codigo.fondo-blanco {
             --bg-codigo: #ffffff !important;
             --borde-codigo: rgba(0, 0, 0, 0.12) !important;
             --halo-exterior: rgba(0, 0, 0, 0.05) !important;
             --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.14), 0 6px 20px rgba(0, 0, 0, 0.06) !important;
-            --color-texto: #1f2328 !important;
-            --color-comentario: #d73a49 !important; /* Rojo clasico IDLE */
-            --color-keyword: #e36209 !important;    /* Naranja IDLE */
-            --color-builtin: #6f42c1 !important;    /* Purpura */
-            --color-funcion: #005cc5 !important;    /* Azul */
-            --color-string: #22863a !important;     /* Verde */
-            --color-numero: #005cc5 !important;     /* Azul */
-            --color-operador: #24292f !important;
-            --color-puntuacion: #24292f !important;
-            --color-boolean: #005cc5 !important;
             --cabecera-mac-borde: rgba(0, 0, 0, 0.08) !important;
             --badge-bg: rgba(0, 0, 0, 0.04) !important;
-            --badge-color: #57606a !important;
         }
 
-        .tema-blanco .cabecera-mac {
+        .ventana-codigo.fondo-blanco .cabecera-mac {
             border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        /* 1. IDLE en fondo blanco (Classic IDLE Light) */
+        .ventana-codigo.tema-idle.fondo-blanco {
+            --color-texto: #202124 !important;
+            --color-comentario: #dd0000 !important; /* Rojo clasico IDLE */
+            --color-keyword: #ff7700 !important;    /* Naranja IDLE */
+            --color-builtin: #900090 !important;    /* Purpura */
+            --color-funcion: #0000ff !important;    /* Azul */
+            --color-string: #00aa00 !important;     /* Verde */
+            --color-numero: #0000ff !important;     /* Azul */
+            --color-operador: #202124 !important;
+            --color-puntuacion: #202124 !important;
+            --color-boolean: #ff7700 !important;
+            --badge-color: #5f6368 !important;
+        }
+
+        /* 2. VS Code en fondo blanco (VS Code Light+) */
+        .ventana-codigo.tema-vscode.fondo-blanco {
+            --color-texto: #000000 !important;
+            --color-comentario: #008000 !important; /* Verde clasico VS Code */
+            --color-keyword: #0000ff !important;    /* Azul clasico */
+            --color-builtin: #267f99 !important;    /* Teal */
+            --color-funcion: #795e26 !important;    /* Ocre clasico */
+            --color-string: #a31515 !important;     /* Rojo quemado */
+            --color-numero: #098658 !important;     /* Verde oscuro */
+            --color-operador: #000000 !important;
+            --color-puntuacion: #000000 !important;
+            --color-boolean: #0000ff !important;
+            --badge-color: #6e7681 !important;
+        }
+
+        /* 3. One Dark en fondo blanco (One Light / Atom Light) */
+        .ventana-codigo.tema-onedark.fondo-blanco {
+            --color-texto: #383a42 !important;
+            --color-comentario: #a0a1a7 !important; /* Gris */
+            --color-keyword: #a626a4 !important;    /* Purpura */
+            --color-builtin: #c18401 !important;    /* Ocre */
+            --color-funcion: #4078f2 !important;    /* Azul */
+            --color-string: #50a14f !important;     /* Verde */
+            --color-numero: #986801 !important;     /* Naranja */
+            --color-operador: #0184bc !important;   /* Cian */
+            --color-puntuacion: #383a42 !important;
+            --color-boolean: #986801 !important;
+            --badge-color: #6a737d !important;
+        }
+
+        /* 4. Dracula en fondo blanco (Dracula Light) */
+        .ventana-codigo.tema-dracula.fondo-blanco {
+            --color-texto: #282a36 !important;
+            --color-comentario: #6272a4 !important; /* Azul grisaceo */
+            --color-keyword: #d01070 !important;    /* Magenta vibrante */
+            --color-builtin: #0086b3 !important;    /* Cian oscuro */
+            --color-funcion: #108535 !important;    /* Verde */
+            --color-string: #c45b00 !important;     /* Ambar calido */
+            --color-numero: #7940c6 !important;     /* Morado */
+            --color-operador: #d01070 !important;
+            --color-puntuacion: #282a36 !important;
+            --color-boolean: #7940c6 !important;
+            --badge-color: #7940c6 !important;
+        }
+
+        /* 5. Monokai en fondo blanco (Monokai Light) */
+        .ventana-codigo.tema-monokai.fondo-blanco {
+            --color-texto: #2d2a2e !important;
+            --color-comentario: #727072 !important; /* Gris */
+            --color-keyword: #e6005c !important;    /* Rosa vivo */
+            --color-builtin: #0098b8 !important;    /* Cian */
+            --color-funcion: #599e00 !important;    /* Verde oliva */
+            --color-string: #d67000 !important;     /* Naranja */
+            --color-numero: #7c58e0 !important;     /* Violeta */
+            --color-operador: #e6005c !important;
+            --color-puntuacion: #2d2a2e !important;
+            --color-boolean: #e6005c !important;
+            --badge-color: #e6005c !important;
         }
 
         /* === CONFIGURACION GENERAL Y CUERPO === */
@@ -544,7 +608,6 @@
         .circulo-tema#tema-dot-onedark { background: linear-gradient(135deg, #c678dd 0%, #61afef 100%); }
         .circulo-tema#tema-dot-dracula { background: linear-gradient(135deg, #bd93f9 0%, #ff79c6 100%); }
         .circulo-tema#tema-dot-monokai { background: linear-gradient(135deg, #ff6188 0%, #ffd866 100%); }
-        .circulo-tema#tema-dot-blanco { background: #ffffff; border-color: rgba(0, 0, 0, 0.25); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.1); }
 
         /* Tooltips para círculos */
         .circulo-tema::after {
@@ -601,6 +664,12 @@
             transform: scale(0.94);
         }
 
+        .btn-icono.activo {
+            background-color: var(--toolbar-btn-hover);
+            color: #38bdf8;
+            box-shadow: inset 0 0 0 1.5px rgba(56, 189, 248, 0.4);
+        }
+
         .btn-icono svg {
             width: 20px;
             height: 20px;
@@ -647,22 +716,22 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Notificacion flotante de copiado */
+        /* Notificacion flotante debajo de la barra a 1% de la pantalla */
         #toast-copiado {
             position: fixed;
-            bottom: calc(5vh + 95px);
+            bottom: 1vh;
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
+            transform: translateX(-50%) translateY(10px);
             background: #10b981;
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            padding: 9px 20px;
+            padding: 6px 16px;
             border-radius: 50px;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 6px;
             opacity: 0;
             pointer-events: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -823,23 +892,14 @@ while filas <= 0:
 
             <div class="separador"></div>
 
-            <!-- Selector de temas de colores (Gama de circulos de temas) -->
+            <!-- Selector de temas de colores (Gama de 5 circulos de temas) -->
             <div class="selector-temas">
                 <button class="circulo-tema activo" id="tema-dot-idle" data-tooltip="Python IDLE" aria-label="Python IDLE" onclick="establecerTemaCodigo('idle')"></button>
                 <button class="circulo-tema" id="tema-dot-vscode" data-tooltip="VS Code Dark+" aria-label="VS Code Dark+" onclick="establecerTemaCodigo('vscode')"></button>
                 <button class="circulo-tema" id="tema-dot-onedark" data-tooltip="One Dark Pro" aria-label="One Dark Pro" onclick="establecerTemaCodigo('onedark')"></button>
                 <button class="circulo-tema" id="tema-dot-dracula" data-tooltip="Dracula" aria-label="Dracula" onclick="establecerTemaCodigo('dracula')"></button>
                 <button class="circulo-tema" id="tema-dot-monokai" data-tooltip="Monokai Pro" aria-label="Monokai Pro" onclick="establecerTemaCodigo('monokai')"></button>
-                <button class="circulo-tema" id="tema-dot-blanco" data-tooltip="Cuadro Blanco (Light)" aria-label="Cuadro Blanco (Light)" onclick="establecerTemaCodigo('blanco')"></button>
             </div>
-
-            <!-- Boton de alternar cuadro de codigo (Blanco / Oscuro) -->
-            <button class="btn-icono" id="btn-tema-codigo" title="Fondo del cuadro (Blanco / Oscuro)" aria-label="Fondo del cuadro (Blanco / Oscuro)" data-tooltip="Cuadro Blanco / Oscuro" onclick="alternarTemaCodigo()">
-                <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor"></path>
-                </svg>
-            </button>
 
             <div class="separador"></div>
 
@@ -861,6 +921,14 @@ while filas <= 0:
             </button>
 
             <div class="separador"></div>
+
+            <!-- Alternar Fondo del Visor de Codigo (Blanco / Oscuro) - Inmediatamente antes del boton de tema para cambiar toda la web -->
+            <button class="btn-icono" id="btn-fondo-visor" title="Fondo del visor (Blanco / Oscuro)" aria-label="Fondo del visor (Blanco / Oscuro)" data-tooltip="Fondo del Visor (Blanco / Oscuro)" onclick="alternarFondoVisor()">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor"></path>
+                </svg>
+            </button>
 
             <!-- Alternar Tema de la App (Oscuro / Claro) -->
             <button class="btn-icono" id="btn-tema-app" title="Alternar tema de la página (Oscuro / Claro)" aria-label="Alternar tema de la página (Oscuro / Claro)" data-tooltip="Tema de la Página (Oscuro / Claro)" onclick="alternarTemaApp()">
@@ -1004,42 +1072,53 @@ while filas <= 0:
             }
         }
 
-        let ultimoTemaOscuro = 'idle';
+        let fondoBlancoActivo = false;
 
-        // Establecer tema de color del codigo (5 oscuros + 1 blanco)
+        // Establecer tema de color del codigo (5 temas: idle, vscode, onedark, dracula, monokai)
         function establecerTemaCodigo(tema) {
             temaCodigoActual = tema;
-            if (tema !== 'blanco') {
-                ultimoTemaOscuro = tema;
-            }
             const ventana = document.getElementById('ventana-codigo');
-            ventana.className = `ventana-codigo tema-${tema}`;
+            
+            // Remover temas anteriores y asignar el tema seleccionado
+            const temasDisponibles = ['tema-idle', 'tema-vscode', 'tema-onedark', 'tema-dracula', 'tema-monokai'];
+            temasDisponibles.forEach(t => ventana.classList.remove(t));
+            ventana.classList.add(`tema-${tema}`);
 
+            // Conservar el estado de fondo blanco si estaba activo
+            if (fondoBlancoActivo) {
+                ventana.classList.add('fondo-blanco');
+            }
+
+            // Marcar circulo activo
             document.querySelectorAll('.circulo-tema').forEach(btn => btn.classList.remove('activo'));
             const dot = document.getElementById(`tema-dot-${tema}`);
             if (dot) dot.classList.add('activo');
 
-            const btnTema = document.getElementById('btn-tema-codigo');
-            if (btnTema) {
-                if (tema === 'blanco') {
-                    btnTema.setAttribute('data-tooltip', 'Cambiar a Fondo Oscuro');
-                    btnTema.setAttribute('title', 'Cambiar a Fondo Oscuro');
-                } else {
-                    btnTema.setAttribute('data-tooltip', 'Cambiar a Fondo Blanco');
-                    btnTema.setAttribute('title', 'Cambiar a Fondo Blanco');
-                }
-            }
+            mostrarToast(`Tema: ${obtenerNombreTema(tema)}`);
         }
 
-        // Alternar tema del cuadro de codigo entre Blanco y Oscuro
-        function alternarTemaCodigo() {
-            if (temaCodigoActual === 'blanco') {
-                establecerTemaCodigo(ultimoTemaOscuro || 'idle');
-                mostrarToast(`Cuadro de código: Modo Oscuro (${obtenerNombreTema(temaCodigoActual)})`);
+        // Alternar unicamente el fondo del visor (Blanco / Oscuro) sin alterar el tema seleccionado
+        function alternarFondoVisor() {
+            fondoBlancoActivo = !fondoBlancoActivo;
+            const ventana = document.getElementById('ventana-codigo');
+            const btn = document.getElementById('btn-fondo-visor');
+
+            if (fondoBlancoActivo) {
+                ventana.classList.add('fondo-blanco');
+                if (btn) {
+                    btn.classList.add('activo');
+                    btn.setAttribute('data-tooltip', 'Fondo del Visor: Blanco (Cambiar a Oscuro)');
+                    btn.setAttribute('title', 'Fondo del Visor: Blanco (Cambiar a Oscuro)');
+                }
+                mostrarToast(`Fondo del visor: Blanco (${obtenerNombreTema(temaCodigoActual)})`);
             } else {
-                ultimoTemaOscuro = temaCodigoActual;
-                establecerTemaCodigo('blanco');
-                mostrarToast('Cuadro de código: Modo Blanco');
+                ventana.classList.remove('fondo-blanco');
+                if (btn) {
+                    btn.classList.remove('activo');
+                    btn.setAttribute('data-tooltip', 'Fondo del Visor: Oscuro (Cambiar a Blanco)');
+                    btn.setAttribute('title', 'Fondo del Visor: Oscuro (Cambiar a Blanco)');
+                }
+                mostrarToast(`Fondo del visor: Oscuro (${obtenerNombreTema(temaCodigoActual)})`);
             }
         }
 
@@ -1049,8 +1128,7 @@ while filas <= 0:
                 vscode: 'VS Code Dark+',
                 onedark: 'One Dark Pro',
                 dracula: 'Dracula',
-                monokai: 'Monokai Pro',
-                blanco: 'Blanco (Light)'
+                monokai: 'Monokai Pro'
             };
             return nombres[tema] || tema;
         }
@@ -1218,8 +1296,8 @@ while filas <= 0:
             canvas.toBlob((blob) => {
                 if (!blob) return;
                 const tamanoRealKb = (blob.size / 1024).toFixed(0);
-                const enlace = document.createElement('a');
-                enlace.download = `codigo_${temaCodigoActual}_${calidadActual}.${extension}`;
+                const modoFondo = fondoBlancoActivo ? '_blanco' : '';
+                enlace.download = `codigo_${temaCodigoActual}${modoFondo}_${calidadActual}.${extension}`;
                 enlace.href = URL.createObjectURL(blob);
                 enlace.click();
                 setTimeout(() => URL.revokeObjectURL(enlace.href), 1500);
