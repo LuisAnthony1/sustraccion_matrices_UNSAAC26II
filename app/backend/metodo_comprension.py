@@ -103,21 +103,23 @@ def restar_matrices_comprension(matriz_a, matriz_b):
     imprimir_matriz_consola(matriz_a, "Matriz A (Minuendo)")
     print()
     imprimir_matriz_consola(matriz_b, "Matriz B (Sustraendo)")
-    print("\n=== EXPRESIÓN DE COMPRENSIÓN EVALUADA ===")
-    print("  Resultado = [")
-    print("      [matriz_a[i][j] - matriz_b[i][j] for j in range(columnas)]")
-    print("      for i in range(filas)")
-    print("  ]")
     print("\n=== EVALUACIÓN FILA POR FILA ===")
 
+    ancho_fila = len(str(filas_a))
     for i in range(filas_a):
+        prefijo = f"  Fila [{i + 1:>{ancho_fila}}]: "
+        longitud_prefijo = len(prefijo)
+        espacio_igual = " " * (longitud_prefijo - 2) + "= "
+        espacio_flecha = " " * (longitud_prefijo - 3) + "=> "
+
         fila_a_str = [str(matriz_a[i][j]) for j in range(columnas_a)]
         fila_b_str = [str(matriz_b[i][j]) for j in range(columnas_a)]
         restas_str = [f"{matriz_a[i][j]} - {matriz_b[i][j]}" for j in range(columnas_a)]
-        valores_res = [matriz_a[i][j] - matriz_b[i][j] for j in range(columnas_a)]
-        print(f"  Fila [{i + 1}]: [{', '.join(fila_a_str)}] - [{', '.join(fila_b_str)}]")
-        print(f"           = [{', '.join(restas_str)}]")
-        print(f"           => {valores_res}")
+        valores_res = [str(matriz_a[i][j] - matriz_b[i][j]) for j in range(columnas_a)]
+
+        print(f"{prefijo}[{', '.join(fila_a_str)}] - [{', '.join(fila_b_str)}]")
+        print(f"{espacio_igual}[{', '.join(restas_str)}]")
+        print(f"{espacio_flecha}[{', '.join(valores_res)}]")
 
     matriz_resultado = [
         [
