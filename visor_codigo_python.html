@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Código Python — UNSAAC</title>
+
+    <!-- Fuente moderna monoespaciada e interfaz -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Prism.js para resaltado de sintaxis Python -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <!-- html2canvas para captura de alta resolución con transparencia -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* === VARIABLES DE TEMA DE LA APLICACION === */
+        body.app-tema-oscuro {
+            --bg-app: #0e1014;
+            --color-app-texto: #e2e8f0;
+            --toolbar-bg: rgba(22, 26, 34, 0.85);
+            --toolbar-borde: rgba(255, 255, 255, 0.1);
+            --toolbar-btn-color: #cbd5e1;
+            --toolbar-btn-hover: rgba(255, 255, 255, 0.12);
+            --toolbar-btn-activo: #38bdf8;
+            --tooltip-bg: #1e293b;
+            --tooltip-color: #f8fafc;
+        }
+
+        body.app-tema-claro {
+            --bg-app: #f1f4f9;
+            --color-app-texto: #1e293b;
+            --toolbar-bg: rgba(255, 255, 255, 0.9);
+            --toolbar-borde: rgba(0, 0, 0, 0.12);
+            --toolbar-btn-color: #475569;
+            --toolbar-btn-hover: rgba(0, 0, 0, 0.08);
+            --toolbar-btn-activo: #0284c7;
+            --tooltip-bg: #0f172a;
+            --tooltip-color: #ffffff;
+        }
+
+        /* === VARIABLES DE TEMA DEL CODIGO (INDEPENDIENTES) === */
+        .codigo-tema-oscuro {
+            --bg-codigo: #16181d;
+            --borde-codigo: rgba(255, 255, 255, 0.12);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.65), 0 8px 24px rgba(0, 0, 0, 0.4);
+            --color-texto: #e6edf3;
+            --color-comentario: #7d8590;
+            --color-keyword: #ff7b72;
+            --color-string: #a5d6ff;
+            --color-numero: #79c0ff;
+            --color-funcion: #d2a8ff;
+            --color-operador: #ff7b72;
+            --color-puntuacion: #c9d1d9;
+            --cabecera-mac-borde: rgba(255, 255, 255, 0.06);
+            --badge-bg: rgba(255, 255, 255, 0.08);
+            --badge-color: #94a3b8;
+        }
+
+        .codigo-tema-claro {
+            --bg-codigo: #ffffff;
+            --borde-codigo: rgba(0, 0, 0, 0.1);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.08);
+            --color-texto: #1f2328;
+            --color-comentario: #6e7781;
+            --color-keyword: #cf222e;
+            --color-string: #0a3069;
+            --color-numero: #0550ae;
+            --color-funcion: #8250df;
+            --color-operador: #cf222e;
+            --color-puntuacion: #24292f;
+            --cabecera-mac-borde: rgba(0, 0, 0, 0.06);
+            --badge-bg: rgba(0, 0, 0, 0.05);
+            --badge-color: #64748b;
+        }
+
+        /* === CONFIGURACION GENERAL === */
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px 80px 20px;
+            background-color: var(--bg-app);
+            color: var(--color-app-texto);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* === CONTENEDOR DE CAPTURA (FONDO 100% TRANSPARENTE) === */
+        #area-captura {
+            background-color: transparent !important;
+            padding: 35px;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        /* === VENTANA ESTILO MACOS === */
+        .ventana-codigo {
+            background-color: var(--bg-codigo);
+            border: 1px solid var(--borde-codigo);
+            border-radius: 14px;
+            box-shadow: var(--sombra-codigo);
+            min-width: 580px;
+            max-width: 860px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Cabecera macOS */
+        .cabecera-mac {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px 10px 18px;
+            border-bottom: 1px solid var(--cabecera-mac-borde);
+        }
+
+        .botones-mac {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .punto {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .punto.rojo { background-color: #ff5f56; border: 1px solid #e0443e; }
+        .punto.amarillo { background-color: #ffbd2e; border: 1px solid #dea123; }
+        .punto.verde { background-color: #27c93f; border: 1px solid #1aab29; }
+
+        .etiqueta-lenguaje {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: var(--badge-color);
+            background: var(--badge-bg);
+            padding: 2px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        /* Contenido del codigo */
+        .contenido-codigo {
+            padding: 18px 24px 24px 24px;
+        }
+
+        pre {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            font-size: 15px;
+            line-height: 1.65;
+            tab-size: 4;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace !important;
+            font-size: 15px !important;
+            color: var(--color-texto) !important;
+            text-shadow: none !important;
+            white-space: pre !important;
+        }
+
+        /* Resaltado de sintaxis con Prism adaptado a las variables del tema */
+        .token.comment, .token.prolog, .token.doctype, .token.cdata {
+            color: var(--color-comentario) !important;
+            font-style: italic;
+        }
+
+        .token.keyword, .token.builtin, .token.boolean {
+            color: var(--color-keyword) !important;
+            font-weight: 600;
+        }
+
+        .token.string, .token.char, .token.attr-value {
+            color: var(--color-string) !important;
+        }
+
+        .token.number {
+            color: var(--color-numero) !important;
+        }
+
+        .token.function, .token.class-name {
+            color: var(--color-funcion) !important;
+        }
+
+        .token.operator, .token.entity, .token.url {
+            color: var(--color-operador) !important;
+        }
+
+        .token.punctuation {
+            color: var(--color-puntuacion) !important;
+        }
+
+        /* === BARRA DE HERRAMIENTAS MINIMALISTA ABAJO === */
+        .barra-minimalista {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--toolbar-bg);
+            border: 1px solid var(--toolbar-borde);
+            padding: 8px 14px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Botones de solo iconos */
+        .btn-icono {
+            background: transparent;
+            border: none;
+            color: var(--toolbar-btn-color);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            outline: none;
+        }
+
+        .btn-icono:hover {
+            background-color: var(--toolbar-btn-hover);
+            color: var(--color-app-texto);
+            transform: translateY(-1px);
+        }
+
+        .btn-icono:active {
+            transform: scale(0.94);
+        }
+
+        .btn-icono svg {
+            width: 19px;
+            height: 19px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Separador vertical sutil */
+        .separador {
+            width: 1px;
+            height: 20px;
+            background-color: var(--toolbar-borde);
+            margin: 0 4px;
+        }
+
+        /* Selector de formato minimalista */
+        .selector-formato {
+            display: flex;
+            background: var(--toolbar-btn-hover);
+            border-radius: 20px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .btn-formato {
+            background: transparent;
+            border: none;
+            color: var(--toolbar-btn-color);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 9px;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+
+        .btn-formato.activo {
+            background-color: var(--toolbar-btn-activo);
+            color: #ffffff;
+        }
+
+        /* Tooltip minimalista al pasar el cursor */
+        .btn-icono::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            background: var(--tooltip-bg);
+            color: var(--tooltip-color);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .btn-icono:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Indicador de estado de sincronizacion */
+        .estado-sincronizacion {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--toolbar-btn-color);
+            opacity: 0.85;
+        }
+
+        .punto-estado {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+            animation: pulso 2s infinite;
+        }
+
+        @keyframes pulso {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        /* Notificacion flotante de copiado */
+        #toast-copiado {
+            position: fixed;
+            bottom: 24px;
+            background: #10b981;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 9px 18px;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+        }
+
+        #toast-copiado.activo {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="app-tema-oscuro">
+
+    <!-- Area que se exporta como imagen con transparencia real -->
+    <div id="area-captura">
+        <div class="ventana-codigo codigo-tema-oscuro" id="ventana-codigo">
+            <!-- Cabecera estilo macOS -->
+            <div class="cabecera-mac">
+                <div class="botones-mac">
+                    <span class="punto rojo"></span>
+                    <span class="punto amarillo"></span>
+                    <span class="punto verde"></span>
+                </div>
+                <span class="etiqueta-lenguaje">python</span>
+            </div>
+
+            <!-- Codigo coloreado -->
+            <div class="contenido-codigo">
+                <pre><code class="language-python" id="bloque-codigo"># pedimos la cantidad de filas con condicion
+filas = 0
+while filas <= 0:
+    try:
+        filas = int(input("ingrese la cantidad de filas: "))
+        if filas <= 0:
+            print("la cantidad de filas debe ser mayor a 0")
+    except:
+        print("error, ingrese un numero entero")</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de controles minimalista con iconos ubicada debajo del cuadro -->
+    <div class="barra-minimalista">
+        <!-- Selector de formato -->
+        <div class="selector-formato">
+            <button class="btn-formato activo" id="fmt-png" onclick="establecerFormato('png')">PNG</button>
+            <button class="btn-formato" id="fmt-webp" onclick="establecerFormato('webp')">WEBP</button>
+            <button class="btn-formato" id="fmt-jpeg" onclick="establecerFormato('jpeg')">JPG</button>
+        </div>
+
+        <div class="separador"></div>
+
+        <!-- Descargar Imagen -->
+        <button class="btn-icono" data-tooltip="Descargar Imagen" onclick="descargarImagen()">
+            <svg viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+        </button>
+
+        <!-- Copiar Imagen al Portapapeles -->
+        <button class="btn-icono" data-tooltip="Copiar Imagen al Portapapeles" onclick="copiarImagen()">
+            <svg viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+        </button>
+
+        <div class="separador"></div>
+
+        <!-- Alternar Tema del Codigo (Oscuro / Claro) -->
+        <button class="btn-icono" id="btn-tema-codigo" data-tooltip="Tema del Código (Oscuro / Claro)" onclick="alternarTemaCodigo()">
+            <svg viewBox="0 0 24 24">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+        </button>
+
+        <!-- Alternar Tema de la App (Oscuro / Claro) -->
+        <button class="btn-icono" id="btn-tema-app" data-tooltip="Tema de la Página (Oscuro / Claro)" onclick="alternarTemaApp()">
+            <svg viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Indicador de sincronizacion en vivo -->
+    <div class="estado-sincronizacion">
+        <span class="punto-estado" id="indicador-punto"></span>
+        <span id="texto-estado">sincronizado con codigo_para_visor.txt</span>
+    </div>
+
+    <!-- Mensaje flotante de exito al copiar -->
+    <div id="toast-copiado">
+        <svg style="width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5;" viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>¡Imagen copiada al portapapeles!</span>
+    </div>
+
+    <script>
+        // Formato actual de exportacion
+        let formatoActual = 'png';
+        let ultimoContenidoCodigo = "";
+
+        // Formateo inicial de sintaxis
+        Prism.highlightElement(document.getElementById('bloque-codigo'));
+
+        // Funcion para cambiar el formato de exportacion (PNG, WEBP, JPEG)
+        function establecerFormato(fmt) {
+            formatoActual = fmt;
+            document.querySelectorAll('.btn-formato').forEach(btn => btn.classList.remove('activo'));
+            document.getElementById(`fmt-${fmt}`).classList.add('activo');
+        }
+
+        // Alternar tema del codigo de manera independiente
+        function alternarTemaCodigo() {
+            const ventana = document.getElementById('ventana-codigo');
+            if (ventana.classList.contains('codigo-tema-oscuro')) {
+                ventana.classList.remove('codigo-tema-oscuro');
+                ventana.classList.add('codigo-tema-claro');
+            } else {
+                ventana.classList.remove('codigo-tema-claro');
+                ventana.classList.add('codigo-tema-oscuro');
+            }
+        }
+
+        // Alternar tema de la aplicacion de manera independiente
+        function alternarTemaApp() {
+            const body = document.body;
+            const btnApp = document.getElementById('btn-tema-app');
+            if (body.classList.contains('app-tema-oscuro')) {
+                body.classList.remove('app-tema-oscuro');
+                body.classList.add('app-tema-claro');
+                btnApp.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                `;
+            } else {
+                body.classList.remove('app-tema-claro');
+                body.classList.add('app-tema-oscuro');
+                btnApp.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                `;
+            }
+        }
+
+        // Actualizar el bloque de codigo con nuevo texto
+        function actualizarCodigo(texto) {
+            const bloque = document.getElementById('bloque-codigo');
+            bloque.textContent = texto;
+            Prism.highlightElement(bloque);
+        }
+
+        // Sincronizacion automatica en vivo con codigo_para_visor.txt
+        async function sincronizarArchivoTxt() {
+            try {
+                const respuesta = await fetch('codigo_para_visor.txt?_=' + new Date().getTime());
+                if (respuesta.ok) {
+                    const texto = await respuesta.text();
+                    if (texto.trim() !== "" && texto !== ultimoContenidoCodigo) {
+                        ultimoContenidoCodigo = texto;
+                        actualizarCodigo(texto);
+                    }
+                    document.getElementById('indicador-punto').style.backgroundColor = '#22c55e';
+                    document.getElementById('texto-estado').innerText = 'sincronizado con codigo_para_visor.txt';
+                }
+            } catch (err) {
+                // Si se abre directamente con doble clic (file://)
+                document.getElementById('indicador-punto').style.backgroundColor = '#38bdf8';
+                document.getElementById('texto-estado').innerText = 'modo archivo local (edición y pegado directo activos)';
+            }
+        }
+
+        // Ejecutar sincronizacion cada 1 segundo (actualizacion automatica al guardar el txt)
+        setInterval(sincronizarArchivoTxt, 1000);
+        window.onload = sincronizarArchivoTxt;
+
+        // Soporte adicional: arrastrar y soltar archivo .txt directamente en la ventana
+        window.addEventListener('dragover', (e) => e.preventDefault());
+        window.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const archivo = e.dataTransfer.files[0];
+            if (archivo) {
+                const lector = new FileReader();
+                lector.onload = (evento) => {
+                    actualizarCodigo(evento.target.result);
+                };
+                lector.readAsText(archivo);
+            }
+        });
+
+        // Soporte adicional: pegar codigo con Ctrl+V en cualquier parte
+        window.addEventListener('paste', (e) => {
+            const textoPegado = (e.clipboardData || window.clipboardData).getData('text');
+            if (textoPegado && textoPegado.trim().length > 0) {
+                actualizarCodigo(textoPegado);
+            }
+        });
+
+        // Generar canvas con fondo transparente
+        async function generarCanvasCaptura() {
+            const area = document.getElementById('area-captura');
+            const esJpeg = (formatoActual === 'jpeg');
+
+            return await html2canvas(area, {
+                backgroundColor: esJpeg ? '#0e1014' : null, // Transparente para PNG y WEBP
+                scale: 3, // Calidad ultra nitida
+                logging: false,
+                useCORS: true
+            });
+        }
+
+        // Descargar la imagen
+        async function descargarImagen() {
+            const canvas = await generarCanvasCaptura();
+            const mimeType = formatoActual === 'jpeg' ? 'image/jpeg' : (formatoActual === 'webp' ? 'image/webp' : 'image/png');
+            const extension = formatoActual === 'jpeg' ? 'jpg' : formatoActual;
+
+            const enlace = document.createElement('a');
+            enlace.download = `codigo_fragmento.${extension}`;
+            enlace.href = canvas.toDataURL(mimeType, 0.95);
+            enlace.click();
+        }
+
+        // Copiar la imagen al portapapeles
+        async function copiarImagen() {
+            try {
+                const canvas = await generarCanvasCaptura();
+                canvas.toBlob(async (blob) => {
+                    if (!blob) return;
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    await navigator.clipboard.write([item]);
+                    mostrarToast();
+                }, 'image/png');
+            } catch (err) {
+                // Si el navegador bloquea escritura directa de blob
+                console.error("Error al copiar imagen:", err);
+                alert("Para copiar directamente en este navegador, usa el botón de Descargar.");
+            }
+        }
+
+        // Mostrar notificacion flotante de copiado
+        function mostrarToast() {
+            const toast = document.getElementById('toast-copiado');
+            toast.classList.add('activo');
+            setTimeout(() => {
+                toast.classList.remove('activo');
+            }, 2500);
+        }
+    </script>
+</body>
+
+</html>
