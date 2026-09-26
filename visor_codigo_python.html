@@ -407,6 +407,34 @@
             border-radius: 16px;
             cursor: pointer;
             outline: none;
+            position: relative;
+        }
+
+        .btn-opcion::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 34px;
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            background: var(--tooltip-bg);
+            color: var(--tooltip-color);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 5px 9px;
+            border-radius: 6px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, transform 0.2s;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+        }
+
+        .btn-opcion:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         .btn-opcion.activo {
@@ -415,62 +443,73 @@
             box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
         }
 
-        /* Selector de 5 temas de color (circulos) */
+        /* Selector de 5 temas de color (circulos mejorados con estilo gema) */
         .selector-temas {
             display: flex;
             align-items: center;
-            gap: 7px;
-            padding: 2px 4px;
+            gap: 11px;
+            padding: 3px 8px;
+            background: var(--toolbar-pildora-bg);
+            border-radius: 20px;
         }
 
         .circulo-tema {
-            width: 17px;
-            height: 17px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            border: 2px solid transparent;
+            border: 2px solid rgba(255, 255, 255, 0.45);
             cursor: pointer;
             padding: 0;
             outline: none;
             position: relative;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
         .circulo-tema:hover {
-            transform: scale(1.22);
+            transform: scale(1.18);
+            border-color: #ffffff;
         }
 
         .circulo-tema.activo {
-            transform: scale(1.25);
-            box-shadow: 0 0 0 2px var(--toolbar-bg), 0 0 0 4px var(--toolbar-btn-activo);
+            transform: scale(1.2);
+            border-color: #ffffff;
+            box-shadow: 0 0 0 2px var(--toolbar-bg), 0 0 0 4.5px var(--toolbar-btn-activo), 0 4px 12px rgba(0, 0, 0, 0.35);
         }
 
-        /* Fondos de los 5 círculos */
-        .circulo-tema#tema-dot-idle { background: linear-gradient(135deg, #3776ab 50%, #ffd438 50%); }
-        .circulo-tema#tema-dot-vscode { background: #007acc; }
-        .circulo-tema#tema-dot-onedark { background: #c678dd; }
-        .circulo-tema#tema-dot-dracula { background: #bd93f9; }
-        .circulo-tema#tema-dot-monokai { background: #ff6188; }
+        /* Fondos y gradientes duotono de los 5 círculos */
+        .circulo-tema#tema-dot-idle { background: linear-gradient(135deg, #306998 50%, #ffd438 50%); }
+        .circulo-tema#tema-dot-vscode { background: linear-gradient(135deg, #007acc 0%, #00d2ff 100%); }
+        .circulo-tema#tema-dot-onedark { background: linear-gradient(135deg, #c678dd 0%, #61afef 100%); }
+        .circulo-tema#tema-dot-dracula { background: linear-gradient(135deg, #bd93f9 0%, #ff79c6 100%); }
+        .circulo-tema#tema-dot-monokai { background: linear-gradient(135deg, #ff6188 0%, #ffd866 100%); }
 
         /* Tooltips para círculos */
         .circulo-tema::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 30px;
+            bottom: 34px;
             left: 50%;
             transform: translateX(-50%) translateY(4px);
             background: var(--tooltip-bg);
             color: var(--tooltip-color);
             font-size: 11px;
             font-weight: 500;
-            padding: 4px 8px;
+            padding: 5px 9px;
             border-radius: 6px;
             white-space: nowrap;
             pointer-events: none;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.2s, transform 0.2s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
             z-index: 1000;
+        }
+
+        .circulo-tema:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         .circulo-tema:hover::after {
@@ -637,9 +676,9 @@ while filas <= 0:
         <!-- Selector de formato (Solo imagenes reales) -->
         <div class="selector-grupo">
             <div class="selector-pildora">
-                <button class="btn-opcion activo" id="fmt-png" onclick="establecerFormato('png')">PNG</button>
-                <button class="btn-opcion" id="fmt-webp" onclick="establecerFormato('webp')">WEBP</button>
-                <button class="btn-opcion" id="fmt-jpeg" onclick="establecerFormato('jpeg')">JPG</button>
+                <button class="btn-opcion activo" id="fmt-png" data-tooltip="PNG (Máxima nitidez con transparencia)" onclick="establecerFormato('png')">PNG</button>
+                <button class="btn-opcion" id="fmt-webp" data-tooltip="WEBP (Alta definición ultra optimizada)" onclick="establecerFormato('webp')">WEBP</button>
+                <button class="btn-opcion" id="fmt-jpeg" data-tooltip="JPG (Fondo sólido opaco clásico)" onclick="establecerFormato('jpeg')">JPG</button>
             </div>
         </div>
 
@@ -648,9 +687,9 @@ while filas <= 0:
         <!-- Selector de calidad -->
         <div class="selector-grupo">
             <div class="selector-pildora">
-                <button class="btn-opcion" id="cal-normal" onclick="establecerCalidad('normal')">Normal</button>
-                <button class="btn-opcion activo" id="cal-hd" onclick="establecerCalidad('hd')">HD</button>
-                <button class="btn-opcion" id="cal-4k" onclick="establecerCalidad('4k')">4K</button>
+                <button class="btn-opcion" id="cal-normal" data-tooltip="Normal (~900 KB · 2600×1400px)" onclick="establecerCalidad('normal')">Normal</button>
+                <button class="btn-opcion activo" id="cal-hd" data-tooltip="HD (~2.2 MB · 3900×2100px)" onclick="establecerCalidad('hd')">HD</button>
+                <button class="btn-opcion" id="cal-4k" data-tooltip="4K Ultra (~4.8 MB · 5200×2800px)" onclick="establecerCalidad('4k')">4K</button>
             </div>
         </div>
 
@@ -713,20 +752,86 @@ while filas <= 0:
         // Resaltado de sintaxis inicial
         Prism.highlightElement(document.getElementById('bloque-codigo'));
 
-        // Establecer formato (PNG, WEBP, JPEG, SVG)
+        // Establecer formato (PNG, WEBP, JPEG) y actualizar tooltips
         function establecerFormato(fmt) {
             formatoActual = fmt;
             document.querySelectorAll('[id^="fmt-"]').forEach(btn => btn.classList.remove('activo'));
             const btn = document.getElementById(`fmt-${fmt}`);
             if (btn) btn.classList.add('activo');
+            actualizarTooltips();
         }
 
-        // Establecer calidad (Normal = scale 2, HD = scale 3, 4K = scale 5)
+        // Establecer calidad (Normal = scale 4, HD = scale 6, 4K = scale 8) y actualizar tooltips
         function establecerCalidad(cal) {
             calidadActual = cal;
             document.querySelectorAll('[id^="cal-"]').forEach(btn => btn.classList.remove('activo'));
             const btn = document.getElementById(`cal-${cal}`);
             if (btn) btn.classList.add('activo');
+            actualizarTooltips();
+        }
+
+        // Actualizar tooltips dinámicos con peso estimado en KB/MB y resolución
+        function actualizarTooltips() {
+            const estimaciones = {
+                png: {
+                    normal: { peso: '~900 KB', res: '2600×1400' },
+                    hd: { peso: '~2.2 MB', res: '3900×2100' },
+                    '4k': { peso: '~4.8 MB', res: '5200×2800' }
+                },
+                webp: {
+                    normal: { peso: '~350 KB', res: '2600×1400' },
+                    hd: { peso: '~950 KB', res: '3900×2100' },
+                    '4k': { peso: '~2.1 MB', res: '5200×2800' }
+                },
+                jpeg: {
+                    normal: { peso: '~550 KB', res: '2600×1400' },
+                    hd: { peso: '~1.4 MB', res: '3900×2100' },
+                    '4k': { peso: '~3.2 MB', res: '5200×2800' }
+                }
+            };
+
+            const datosFmt = estimaciones[formatoActual] || estimaciones.png;
+            const fmtTxt = formatoActual === 'jpeg' ? 'JPG' : formatoActual.toUpperCase();
+
+            // Botones de calidad
+            const btnNormal = document.getElementById('cal-normal');
+            const btnHd = document.getElementById('cal-hd');
+            const btn4k = document.getElementById('cal-4k');
+
+            if (btnNormal) {
+                const info = `Normal · ${fmtTxt} (${datosFmt.normal.peso} · ${datosFmt.normal.res}px)`;
+                btnNormal.setAttribute('data-tooltip', info);
+                btnNormal.setAttribute('title', info);
+            }
+            if (btnHd) {
+                const info = `HD · ${fmtTxt} (${datosFmt.hd.peso} · ${datosFmt.hd.res}px)`;
+                btnHd.setAttribute('data-tooltip', info);
+                btnHd.setAttribute('title', info);
+            }
+            if (btn4k) {
+                const info = `4K Ultra · ${fmtTxt} (${datosFmt['4k'].peso} · ${datosFmt['4k'].res}px)`;
+                btn4k.setAttribute('data-tooltip', info);
+                btn4k.setAttribute('title', info);
+            }
+
+            // Boton Descargar
+            const btnDescargar = document.getElementById('btn-descargar');
+            if (btnDescargar) {
+                const pesoSel = datosFmt[calidadActual].peso;
+                const resSel = datosFmt[calidadActual].res;
+                const infoDescarga = `Descargar ${fmtTxt} (${calidadActual.toUpperCase()} · ${pesoSel} · ${resSel}px)`;
+                btnDescargar.setAttribute('data-tooltip', infoDescarga);
+                btnDescargar.setAttribute('title', infoDescarga);
+            }
+
+            // Boton Copiar
+            const btnCopiar = document.getElementById('btn-copiar');
+            if (btnCopiar) {
+                const pesoSel = datosFmt[calidadActual].peso;
+                const infoCopiar = `Copiar Imagen (${calidadActual.toUpperCase()} · ${pesoSel} al portapapeles)`;
+                btnCopiar.setAttribute('data-tooltip', infoCopiar);
+                btnCopiar.setAttribute('title', infoCopiar);
+            }
         }
 
         // Establecer tema de color del codigo (5 gamas)
@@ -853,11 +958,11 @@ while filas <= 0:
             const ventana = document.getElementById('ventana-codigo');
             const bgCodigo = window.getComputedStyle(ventana).getPropertyValue('--bg-codigo').trim() || '#1e1f29';
 
-            // Determinar resolucion segun la calidad elegida
-            let factorEscala = 3; // Por defecto HD
-            if (calidadActual === 'normal') factorEscala = 2;
-            else if (calidadActual === 'hd') factorEscala = 3;
-            else if (calidadActual === '4k') factorEscala = 5; // Ultra 4K maximo detalle
+            // Determinar resolucion segun la calidad elegida (Potencia ultra alta: ~1MB a ~5MB)
+            let factorEscala = 6; // Por defecto HD (Ultra nitido ~2.2 MB)
+            if (calidadActual === 'normal') factorEscala = 4; // Normal de alta calidad (~900 KB)
+            else if (calidadActual === 'hd') factorEscala = 6; // HD (~2.2 MB)
+            else if (calidadActual === '4k') factorEscala = 8; // 4K Master UHD (~4.8 MB)
 
             return await html2canvas(area, {
                 backgroundColor: esJpeg ? bgCodigo : null, // Solo JPG requiere fondo solido
@@ -926,6 +1031,8 @@ while filas <= 0:
                 toast.classList.remove('activo');
             }, 2500);
         }
+        // Inicializar tooltips dinámicos al cargar
+        actualizarTooltips();
     </script>
 </body>
 
