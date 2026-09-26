@@ -18,7 +18,7 @@ def pedir_matriz_consola(nombre, filas, columnas):
     Retorna:
         list[list[float|int]]: Matriz construida con las entradas del usuario.
     """
-    print(f"\n--- Ingrese los elementos para la Matriz {nombre} ({filas}x{columnas}) ---")
+    print(f"\n=== Ingrese los elementos para la Matriz {nombre} ({filas}x{columnas}) ===")
     matriz = []
     for i in range(filas):
         fila = []
@@ -33,7 +33,7 @@ def pedir_matriz_consola(nombre, filas, columnas):
                     fila.append(valor)
                     break
                 except ValueError:
-                    print("    [!] Entrada inválida. Ingrese un valor numérico (ej. 5 o 3.14).")
+                    print("    [!] Entrada inválida. Ingrese un valor numérico.")
         matriz.append(fila)
     return matriz
 
@@ -73,26 +73,21 @@ def restar_matrices_numpy(matriz_a, matriz_b):
         )
 
     # --- SALIDAS EN CONSOLA (TRAZA PEDAGÓGICA) ---
-    print("\n" + "=" * 65)
-    print(" >>> [BACKEND - MÉTODO 3: VECTORIZACIÓN NUMPY] <<<")
-    print("=" * 65)
-    print(f"Dimensiones (shape): {arreglo_a.shape[0]} filas x {arreglo_a.shape[1]} columnas")
+    print(f"\nDimensiones validadas: {arreglo_a.shape[0]} filas x {arreglo_a.shape[1]} columnas\n")
     print(f"Tipo de datos interno: {arreglo_a.dtype}")
-    print("\n--- Arreglo A (Minuendo en ndarray) ---")
+    print("\n=== Arreglo A (Minuendo en ndarray) ===")
     print(arreglo_a)
-    print("\n--- Arreglo B (Sustraendo en ndarray) ---")
+    print("\n=== Arreglo B (Sustraendo en ndarray) ===")
     print(arreglo_b)
-    print("\n--- OPERACIÓN VECTORIZADA (C compilado / BLAS) ---")
+    print("\n=== OPERACIÓN VECTORIZADA (C compilado / BLAS) ===")
     print("  Ejecutando expresión: arreglo_resultado = arreglo_a - arreglo_b")
     print("  (Sin bucles for en Python; operación procesada en memoria contigua en C)")
 
     arreglo_resultado = arreglo_a - arreglo_b
 
-    print("\n--- ARREGLO RESULTANTE C = A - B (ndarray) ---")
+    print("\n=== ARREGLO RESULTANTE C = A - B (ndarray) ===")
     print(arreglo_resultado)
-    print("\nConvertido de vuelta a lista estándar de Python:")
     matriz_lista = arreglo_resultado.tolist()
-    print(matriz_lista)
     print("=" * 65 + "\n")
 
     return matriz_lista

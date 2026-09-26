@@ -77,7 +77,7 @@ def menu_consola_backend():
         matriz_b = pedir_matriz_consola("B", filas, columnas)
 
         while True:
-            print("\n--- SELECCIÓN DE MÉTODO ---")
+            print("\n=== SELECCIÓN DE MÉTODO ===")
             print("1. Método 1: Bucles Anidados (for tradicional)")
             print("2. Método 2: Comprensión de Listas (list comprehension)")
             print("3. Método 3: Vectorización NumPy")

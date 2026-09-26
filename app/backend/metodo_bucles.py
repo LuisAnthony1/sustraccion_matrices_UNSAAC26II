@@ -6,7 +6,7 @@ Lógica pura de backend con soporte pedagógico de salidas e inputs por consola.
 
 def imprimir_matriz_consola(matriz, nombre="Matriz"):
     """
-    Imprime una matriz con formato visual claro y alineado en consola.
+    Imprime una matriz con formato visual compacto y alineado en consola.
 
     Parámetros:
         matriz (list[list[float|int]]): Matriz a imprimir.
@@ -15,9 +15,22 @@ def imprimir_matriz_consola(matriz, nombre="Matriz"):
     filas = len(matriz)
     columnas = len(matriz[0]) if filas > 0 else 0
     print(f"{nombre} ({filas}x{columnas}):")
+
+    def formatear(val):
+        if isinstance(val, float):
+            return f"{val:.2f}".rstrip("0").rstrip(".") if val.is_integer() else f"{val:.2f}"
+        return str(val)
+
+    # Calcular ancho dinámico compacto según el número más largo
+    if filas > 0 and columnas > 0:
+        ancho_max = max(len(formatear(val)) for fila in matriz for val in fila)
+    else:
+        ancho_max = 1
+
+    ancho = max(ancho_max, 2)
     for fila in matriz:
-        elementos = [f"{val:8.2f}" if isinstance(val, float) else f"{val:8}" for val in fila]
-        print("  [ " + " ".join(elementos) + " ]")
+        elementos = [f"{formatear(val):>{ancho}}" for val in fila]
+        print("  [ " + "  ".join(elementos) + " ]")
 
 
 def pedir_matriz_consola(nombre, filas, columnas):
@@ -33,7 +46,7 @@ def pedir_matriz_consola(nombre, filas, columnas):
     Retorna:
         list[list[float|int]]: Matriz construida con las entradas del usuario.
     """
-    print(f"\n--- Ingrese los elementos para la Matriz {nombre} ({filas}x{columnas}) ---")
+    print(f"\n=== Ingrese los elementos para la Matriz {nombre} ({filas}x{columnas}) ===")
     matriz = []
     for i in range(filas):
         fila = []
@@ -49,7 +62,7 @@ def pedir_matriz_consola(nombre, filas, columnas):
                     fila.append(valor)
                     break
                 except ValueError:
-                    print("    [!] Entrada inválida. Ingrese un valor numérico (ej. 5 o 3.14).")
+                    print("    [!] Entrada inválida. Ingrese un valor numérico.")
         matriz.append(fila)
     return matriz
 
@@ -88,15 +101,11 @@ def restar_matrices_bucles(matriz_a, matriz_b):
         )
 
     # --- SALIDAS EN CONSOLA (TRAZA PEDAGÓGICA) ---
-    print("\n" + "=" * 65)
-    print(" >>> [BACKEND - MÉTODO 1: BUCLES ANIDADOS (for)] <<<")
-    print("=" * 65)
-    print(f"Dimensiones validadas: {filas_a} filas x {columnas_a} columnas")
-    print()
+    print(f"\nDimensiones validadas: {filas_a} filas x {columnas_a} columnas\n")
     imprimir_matriz_consola(matriz_a, "Matriz A (Minuendo)")
     print()
     imprimir_matriz_consola(matriz_b, "Matriz B (Sustraendo)")
-    print("\n--- PROCESO PASO A PASO: C[i][j] = A[i][j] - B[i][j] ---")
+    print("\n=== PROCESO PASO A PASO: C[i][j] = A[i][j] - B[i][j] ===")
 
     matriz_resultado = []
 
@@ -114,7 +123,7 @@ def restar_matrices_bucles(matriz_a, matriz_b):
             )
         matriz_resultado.append(fila_actual)
 
-    print("\n--- MATRIZ RESULTANTE C = A - B ---")
+    print("\n=== MATRIZ RESULTANTE C = A - B ===")
     imprimir_matriz_consola(matriz_resultado, "Matriz C")
     print("=" * 65 + "\n")
 
