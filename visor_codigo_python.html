@@ -19,11 +19,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        /* === VARIABLES DE TEMA DE LA APLICACION === */
+        /* === VARIABLES DE TEMA DE LA APLICACION (FONDO GLOBAL) === */
         body.app-tema-oscuro {
             --bg-app: #0e1014;
             --color-app-texto: #e2e8f0;
-            --toolbar-bg: rgba(22, 26, 34, 0.9);
+            --toolbar-bg: rgba(22, 26, 34, 0.92);
             --toolbar-borde: rgba(255, 255, 255, 0.12);
             --toolbar-btn-color: #94a3b8;
             --toolbar-btn-hover: rgba(255, 255, 255, 0.1);
@@ -46,44 +46,112 @@
             --tooltip-color: #ffffff;
         }
 
-        /* === VARIABLES DE TEMA DEL CODIGO (INDEPENDIENTES) === */
-        .codigo-tema-oscuro {
-            --bg-codigo: #16181d;
+        /* === 1. TEMA PYTHON IDLE CLÁSICO (COLORES OFICIALES IDLE) === */
+        .tema-idle {
+            --bg-codigo: #1e1f29;
             --borde-codigo: rgba(255, 255, 255, 0.12);
-            --halo-exterior: rgba(255, 255, 255, 0.06);
+            --halo-exterior: rgba(255, 120, 0, 0.08);
             --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.55), 0 6px 20px rgba(0, 0, 0, 0.35);
-            --color-texto: #e6edf3;
-            --color-comentario: #7d8590;
-            --color-keyword: #ff7b72;
-            --color-string: #a5d6ff;
-            --color-numero: #79c0ff;
-            --color-funcion: #d2a8ff;
-            --color-operador: #ff7b72;
-            --color-puntuacion: #c9d1d9;
+            --color-texto: #f8f8f2;
+            --color-comentario: #f87171; /* Rojo suave clasico IDLE */
+            --color-keyword: #ff7800;    /* Naranja clasico de palabras clave IDLE */
+            --color-builtin: #c084fc;    /* Morado/Purpura clasico de funciones built-in IDLE */
+            --color-funcion: #38bdf8;    /* Azul cielo brillante */
+            --color-string: #22c55e;     /* Verde esmeralda vivo */
+            --color-numero: #60a5fa;     /* Azul claro suave */
+            --color-operador: #f8fafc;   /* Blanco */
+            --color-puntuacion: #cbd5e1; /* Gris suave */
+            --color-boolean: #ff7800;    /* Naranja */
             --cabecera-mac-borde: rgba(255, 255, 255, 0.07);
             --badge-bg: rgba(255, 255, 255, 0.07);
             --badge-color: #94a3b8;
         }
 
-        .codigo-tema-claro {
-            --bg-codigo: #ffffff;
-            --borde-codigo: rgba(0, 0, 0, 0.12);
-            --halo-exterior: rgba(0, 0, 0, 0.04);
-            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.14), 0 6px 18px rgba(0, 0, 0, 0.06);
-            --color-texto: #1f2328;
-            --color-comentario: #6e7781;
-            --color-keyword: #cf222e;
-            --color-string: #0a3069;
-            --color-numero: #0550ae;
-            --color-funcion: #8250df;
-            --color-operador: #cf222e;
-            --color-puntuacion: #24292f;
-            --cabecera-mac-borde: rgba(0, 0, 0, 0.07);
-            --badge-bg: rgba(0, 0, 0, 0.05);
-            --badge-color: #64748b;
+        /* === 2. TEMA VS CODE DARK+ === */
+        .tema-vscode {
+            --bg-codigo: #1e1e1e;
+            --borde-codigo: rgba(255, 255, 255, 0.12);
+            --halo-exterior: rgba(0, 122, 204, 0.08);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.55), 0 6px 20px rgba(0, 0, 0, 0.35);
+            --color-texto: #9cdcfe;      /* Celeste para variables e identificadores */
+            --color-comentario: #6a9955; /* Verde bosque VS Code */
+            --color-keyword: #c586c0;    /* Magenta de control */
+            --color-builtin: #4ec9b0;    /* Turquesa/Cian de tipos y built-ins */
+            --color-funcion: #dcdcaa;    /* Amarillo calido de funciones */
+            --color-string: #ce9178;     /* Terracota para strings */
+            --color-numero: #b5cea8;     /* Verde menta suave */
+            --color-operador: #d4d4d4;   /* Gris claro */
+            --color-puntuacion: #d4d4d4; /* Gris claro */
+            --color-boolean: #569cd6;    /* Azul clasico */
+            --cabecera-mac-borde: rgba(255, 255, 255, 0.07);
+            --badge-bg: rgba(255, 255, 255, 0.07);
+            --badge-color: #94a3b8;
         }
 
-        /* === CONFIGURACION GENERAL === */
+        /* === 3. TEMA ONE DARK PRO (ATOM) === */
+        .tema-onedark {
+            --bg-codigo: #282c34;
+            --borde-codigo: rgba(255, 255, 255, 0.1);
+            --halo-exterior: rgba(198, 120, 221, 0.08);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.55), 0 6px 20px rgba(0, 0, 0, 0.35);
+            --color-texto: #abb2bf;
+            --color-comentario: #7f848e; /* Gris pizarra */
+            --color-keyword: #c678dd;    /* Purpura vibrante */
+            --color-builtin: #e5c07b;    /* Oro calido */
+            --color-funcion: #61afef;    /* Azul electrico */
+            --color-string: #98c379;     /* Verde oliva */
+            --color-numero: #d19a66;     /* Ambar calido */
+            --color-operador: #56b6c2;   /* Cian */
+            --color-puntuacion: #abb2bf; /* Gris */
+            --color-boolean: #d19a66;    /* Ambar */
+            --cabecera-mac-borde: rgba(255, 255, 255, 0.07);
+            --badge-bg: rgba(255, 255, 255, 0.07);
+            --badge-color: #94a3b8;
+        }
+
+        /* === 4. TEMA DRACULA === */
+        .tema-dracula {
+            --bg-codigo: #282a36;
+            --borde-codigo: rgba(189, 147, 249, 0.2);
+            --halo-exterior: rgba(189, 147, 249, 0.08);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.6), 0 6px 20px rgba(0, 0, 0, 0.4);
+            --color-texto: #f8f8f2;
+            --color-comentario: #6272a4; /* Azul grisaceo */
+            --color-keyword: #ff79c6;    /* Rosa neon */
+            --color-builtin: #8be9fd;    /* Cian neon */
+            --color-funcion: #50fa7b;    /* Verde neon */
+            --color-string: #f1fa8c;     /* Amarillo pastel */
+            --color-numero: #bd93f9;     /* Morado suave */
+            --color-operador: #ff79c6;   /* Rosa */
+            --color-puntuacion: #f8f8f2; /* Blanco */
+            --color-boolean: #bd93f9;    /* Morado */
+            --cabecera-mac-borde: rgba(255, 255, 255, 0.08);
+            --badge-bg: rgba(255, 255, 255, 0.08);
+            --badge-color: #bd93f9;
+        }
+
+        /* === 5. TEMA MONOKAI PRO === */
+        .tema-monokai {
+            --bg-codigo: #2d2a2e;
+            --borde-codigo: rgba(255, 255, 255, 0.1);
+            --halo-exterior: rgba(255, 97, 136, 0.08);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.55), 0 6px 20px rgba(0, 0, 0, 0.35);
+            --color-texto: #fcfcfa;
+            --color-comentario: #727072; /* Gris carbon */
+            --color-keyword: #ff6188;    /* Rosa vivo */
+            --color-builtin: #78dce8;    /* Cian electrico */
+            --color-funcion: #a9dc76;    /* Verde lima */
+            --color-string: #ffd866;     /* Amarillo sol */
+            --color-numero: #ab9df2;     /* Violeta */
+            --color-operador: #ff6188;   /* Rosa */
+            --color-puntuacion: #939293; /* Gris */
+            --color-boolean: #ff6188;    /* Rosa */
+            --cabecera-mac-borde: rgba(255, 255, 255, 0.07);
+            --badge-bg: rgba(255, 255, 255, 0.07);
+            --badge-color: #ffd866;
+        }
+
+        /* === CONFIGURACION GENERAL Y CUERPO === */
         * {
             box-sizing: border-box;
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -91,7 +159,7 @@
 
         body {
             margin: 0;
-            padding: 40px 20px 80px 20px;
+            padding: 30px 20px 85px 20px;
             background-color: var(--bg-app);
             color: var(--color-app-texto);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -99,7 +167,57 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Contenedor central flexible */
+        .contenedor-principal {
+            flex: 1;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            width: 100%;
+            margin: auto 0;
+        }
+
+        /* === ALERTA ROJA DE OVERFLOW (ARRIBA A LA IZQUIERDA) === */
+        .alerta-overflow {
+            position: fixed;
+            top: 14px;
+            left: 18px;
+            z-index: 1000;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            color: #ef4444;
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 11.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.18);
+            font-family: 'Fira Code', 'Inter', monospace;
+            letter-spacing: 0.2px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            animation: pulso-alerta 2.2s infinite ease-in-out;
+        }
+
+        @keyframes pulso-alerta {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.98); }
+        }
+
+        .alerta-icono {
+            width: 15px;
+            height: 15px;
+            stroke: #ef4444;
+            fill: none;
+            stroke-width: 2.2;
+            flex-shrink: 0;
         }
 
         /* === CONTENEDOR DE CAPTURA (FONDO 100% TRANSPARENTE) === */
@@ -176,7 +294,7 @@
             box-shadow: 0 0 0 1px #38bdf8;
         }
 
-        /* Contenido del codigo */
+        /* Contenido del codigo con salto de linea limpio */
         .contenido-codigo {
             padding: 18px 24px 24px 24px;
         }
@@ -188,7 +306,9 @@
             font-size: 15px;
             line-height: 1.65;
             tab-size: 4;
-            overflow-x: auto;
+            white-space: pre-wrap !important;
+            word-break: break-word !important;
+            overflow-wrap: anywhere !important;
         }
 
         code {
@@ -196,17 +316,29 @@
             font-size: 15px !important;
             color: var(--color-texto) !important;
             text-shadow: none !important;
-            white-space: pre !important;
+            white-space: pre-wrap !important;
+            word-break: break-word !important;
+            overflow-wrap: anywhere !important;
         }
 
-        /* Resaltado de sintaxis con Prism adaptado a las variables del tema */
+        /* Resaltado de sintaxis con Prism enriquecido (estilo IDLE / VS Code) */
         .token.comment, .token.prolog, .token.doctype, .token.cdata {
             color: var(--color-comentario) !important;
             font-style: italic;
         }
 
-        .token.keyword, .token.builtin, .token.boolean {
+        .token.keyword {
             color: var(--color-keyword) !important;
+            font-weight: 600;
+        }
+
+        .token.builtin {
+            color: var(--color-builtin) !important;
+            font-weight: 500;
+        }
+
+        .token.boolean {
+            color: var(--color-boolean) !important;
             font-weight: 600;
         }
 
@@ -230,17 +362,22 @@
             color: var(--color-puntuacion) !important;
         }
 
-        /* === BARRA DE HERRAMIENTAS MINIMALISTA ABAJO === */
+        /* === BARRA DE HERRAMIENTAS FLOTANTE FIJA A 5PX DEL FONDO === */
         .barra-minimalista {
-            margin-top: 18px;
+            position: fixed;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            margin: 0;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
             background: var(--toolbar-bg);
             border: 1px solid var(--toolbar-borde);
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 50px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
             -webkit-backdrop-filter: blur(16px);
             backdrop-filter: blur(16px);
         }
@@ -249,15 +386,7 @@
         .selector-grupo {
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .grupo-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--toolbar-btn-color);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
+            gap: 5px;
         }
 
         .selector-pildora {
@@ -286,13 +415,77 @@
             box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
         }
 
+        /* Selector de 5 temas de color (circulos) */
+        .selector-temas {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 2px 4px;
+        }
+
+        .circulo-tema {
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            padding: 0;
+            outline: none;
+            position: relative;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+
+        .circulo-tema:hover {
+            transform: scale(1.22);
+        }
+
+        .circulo-tema.activo {
+            transform: scale(1.25);
+            box-shadow: 0 0 0 2px var(--toolbar-bg), 0 0 0 4px var(--toolbar-btn-activo);
+        }
+
+        /* Fondos de los 5 círculos */
+        .circulo-tema#tema-dot-idle { background: linear-gradient(135deg, #3776ab 50%, #ffd438 50%); }
+        .circulo-tema#tema-dot-vscode { background: #007acc; }
+        .circulo-tema#tema-dot-onedark { background: #c678dd; }
+        .circulo-tema#tema-dot-dracula { background: #bd93f9; }
+        .circulo-tema#tema-dot-monokai { background: #ff6188; }
+
+        /* Tooltips para círculos */
+        .circulo-tema::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            background: var(--tooltip-bg);
+            color: var(--tooltip-color);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .circulo-tema:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
         /* Botones de solo iconos */
         .btn-icono {
             background: transparent;
             border: none;
             color: var(--toolbar-btn-color);
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -313,8 +506,8 @@
         }
 
         .btn-icono svg {
-            width: 18px;
-            height: 18px;
+            width: 17px;
+            height: 17px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2;
@@ -325,7 +518,7 @@
         /* Separador vertical sutil */
         .separador {
             width: 1px;
-            height: 20px;
+            height: 18px;
             background-color: var(--toolbar-borde);
             margin: 0 2px;
         }
@@ -334,7 +527,7 @@
         .btn-icono::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 46px;
+            bottom: 44px;
             left: 50%;
             transform: translateX(-50%) translateY(4px);
             background: var(--tooltip-bg);
@@ -361,27 +554,28 @@
         /* Notificacion flotante de copiado */
         #toast-copiado {
             position: fixed;
-            bottom: 24px;
+            bottom: 56px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
             background: #10b981;
             color: #ffffff;
             font-size: 13px;
             font-weight: 600;
-            padding: 9px 18px;
+            padding: 8px 18px;
             border-radius: 50px;
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
             display: flex;
             align-items: center;
             gap: 6px;
             opacity: 0;
-            transform: translateY(20px);
             pointer-events: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 1000;
+            z-index: 1001;
         }
 
         #toast-copiado.activo {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
         }
 
         .toast-icono {
@@ -395,25 +589,36 @@
     </style>
 </head>
 
-<!-- Por defecto: Tema de aplicacion claro y codigo oscuro -->
+<!-- Por defecto: Tema de aplicacion claro y codigo en tema IDLE -->
 <body class="app-tema-claro">
 
-    <!-- Area que se exporta como imagen con transparencia real -->
-    <div id="area-captura">
-        <div class="ventana-codigo codigo-tema-oscuro" id="ventana-codigo">
-            <!-- Cabecera estilo macOS -->
-            <div class="cabecera-mac">
-                <div class="botones-mac">
-                    <span class="punto rojo"></span>
-                    <span class="punto amarillo"></span>
-                    <span class="punto verde"></span>
-                </div>
-                <span class="etiqueta-lenguaje" contenteditable="true" spellcheck="false" title="Clic para editar extensión o nombre">py {Python}</span>
-            </div>
+    <!-- Alerta de desbordamiento horizontal (Fuera de #area-captura para no salir en la imagen exportada) -->
+    <div id="alerta-overflow" class="alerta-overflow" style="display: none;">
+        <svg class="alerta-icono" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span id="texto-alerta-overflow">OVERFLOW: Línea supera los 70 caracteres</span>
+    </div>
 
-            <!-- Codigo coloreado -->
-            <div class="contenido-codigo">
-                <pre><code class="language-python" id="bloque-codigo"># pedimos la cantidad de filas con condicion
+    <!-- Contenedor centrado para la ventana de codigo -->
+    <div class="contenedor-principal">
+        <div id="area-captura">
+            <div class="ventana-codigo tema-idle" id="ventana-codigo">
+                <!-- Cabecera estilo macOS -->
+                <div class="cabecera-mac">
+                    <div class="botones-mac">
+                        <span class="punto rojo"></span>
+                        <span class="punto amarillo"></span>
+                        <span class="punto verde"></span>
+                    </div>
+                    <span class="etiqueta-lenguaje" contenteditable="true" spellcheck="false" title="Clic para editar extensión o nombre">py {Python}</span>
+                </div>
+
+                <!-- Codigo coloreado con salto de linea limpio -->
+                <div class="contenido-codigo">
+                    <pre><code class="language-python" id="bloque-codigo"># pedimos la cantidad de filas con condicion
 filas = 0
 while filas <= 0:
     try:
@@ -422,11 +627,12 @@ while filas <= 0:
             print("la cantidad de filas debe ser mayor a 0")
     except:
         print("error, ingrese un numero entero")</code></pre>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Barra de controles minimalista con iconos ubicada debajo del cuadro -->
+    <!-- Barra de controles flotante fija a 5px del fondo de pantalla -->
     <div class="barra-minimalista">
         <!-- Selector de formato -->
         <div class="selector-grupo">
@@ -451,6 +657,17 @@ while filas <= 0:
 
         <div class="separador"></div>
 
+        <!-- Selector de temas de colores (Gama de 5 circulos) -->
+        <div class="selector-temas">
+            <button class="circulo-tema activo" id="tema-dot-idle" data-tooltip="Python IDLE" aria-label="Python IDLE" onclick="establecerTemaCodigo('idle')"></button>
+            <button class="circulo-tema" id="tema-dot-vscode" data-tooltip="VS Code Dark+" aria-label="VS Code Dark+" onclick="establecerTemaCodigo('vscode')"></button>
+            <button class="circulo-tema" id="tema-dot-onedark" data-tooltip="One Dark Pro" aria-label="One Dark Pro" onclick="establecerTemaCodigo('onedark')"></button>
+            <button class="circulo-tema" id="tema-dot-dracula" data-tooltip="Dracula" aria-label="Dracula" onclick="establecerTemaCodigo('dracula')"></button>
+            <button class="circulo-tema" id="tema-dot-monokai" data-tooltip="Monokai Pro" aria-label="Monokai Pro" onclick="establecerTemaCodigo('monokai')"></button>
+        </div>
+
+        <div class="separador"></div>
+
         <!-- Descargar Imagen -->
         <button class="btn-icono" id="btn-descargar" title="Descargar imagen" aria-label="Descargar imagen" data-tooltip="Descargar Imagen" onclick="descargarImagen()">
             <svg viewBox="0 0 24 24">
@@ -470,14 +687,6 @@ while filas <= 0:
 
         <div class="separador"></div>
 
-        <!-- Alternar Tema del Codigo (Oscuro / Claro) -->
-        <button class="btn-icono" id="btn-tema-codigo" title="Alternar tema del código (Oscuro / Claro)" aria-label="Alternar tema del código (Oscuro / Claro)" data-tooltip="Tema del Código (Oscuro / Claro)" onclick="alternarTemaCodigo()">
-            <svg viewBox="0 0 24 24">
-                <polyline points="16 18 22 12 16 6"></polyline>
-                <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-        </button>
-
         <!-- Alternar Tema de la App (Oscuro / Claro) -->
         <button class="btn-icono" id="btn-tema-app" title="Alternar tema de la página (Oscuro / Claro)" aria-label="Alternar tema de la página (Oscuro / Claro)" data-tooltip="Tema de la Página (Oscuro / Claro)" onclick="alternarTemaApp()">
             <svg viewBox="0 0 24 24">
@@ -486,7 +695,7 @@ while filas <= 0:
         </button>
     </div>
 
-    <!-- Mensaje flotante de exito al copiar -->
+    <!-- Mensaje flotante de exito al copiar o descargar -->
     <div id="toast-copiado">
         <svg class="toast-icono" viewBox="0 0 24 24">
             <polyline points="20 6 9 17 4 12"></polyline>
@@ -495,10 +704,12 @@ while filas <= 0:
     </div>
 
     <script>
-        // Configuraciones de exportacion
+        // Configuraciones de exportacion y apariencia
         let formatoActual = 'png';
         let calidadActual = 'hd';
+        let temaCodigoActual = 'idle';
         let ultimoContenidoCodigo = "";
+        const LIMITE_CARACTERES = 70; // Limite horizontal de caracteres por linea
 
         // Resaltado de sintaxis inicial
         Prism.highlightElement(document.getElementById('bloque-codigo'));
@@ -519,16 +730,15 @@ while filas <= 0:
             if (btn) btn.classList.add('activo');
         }
 
-        // Alternar tema del codigo de manera independiente
-        function alternarTemaCodigo() {
+        // Establecer tema de color del codigo (5 gamas)
+        function establecerTemaCodigo(tema) {
+            temaCodigoActual = tema;
             const ventana = document.getElementById('ventana-codigo');
-            if (ventana.classList.contains('codigo-tema-oscuro')) {
-                ventana.classList.remove('codigo-tema-oscuro');
-                ventana.classList.add('codigo-tema-claro');
-            } else {
-                ventana.classList.remove('codigo-tema-claro');
-                ventana.classList.add('codigo-tema-oscuro');
-            }
+            ventana.className = `ventana-codigo tema-${tema}`;
+
+            document.querySelectorAll('.circulo-tema').forEach(btn => btn.classList.remove('activo'));
+            const dot = document.getElementById(`tema-dot-${tema}`);
+            if (dot) dot.classList.add('activo');
         }
 
         // Alternar tema de la aplicacion de manera independiente
@@ -562,11 +772,37 @@ while filas <= 0:
             }
         }
 
+        // Verificacion del limite horizontal de caracteres
+        function verificarLimiteCaracteres(texto) {
+            const lineas = texto.split('\n');
+            const desbordadas = [];
+
+            for (let i = 0; i < lineas.length; i++) {
+                const lineaLimpia = lineas[i].replace(/\r$/, '');
+                if (lineaLimpia.length > LIMITE_CARACTERES) {
+                    desbordadas.push({ num: i + 1, largo: lineaLimpia.length });
+                }
+            }
+
+            const alerta = document.getElementById('alerta-overflow');
+            const alertaTexto = document.getElementById('texto-alerta-overflow');
+
+            if (desbordadas.length > 0) {
+                const primera = desbordadas[0];
+                const extras = desbordadas.length > 1 ? ` (+${desbordadas.length - 1} líneas más)` : '';
+                alertaTexto.textContent = `OVERFLOW: Línea ${primera.num} tiene ${primera.largo} caracteres (Límite: ${LIMITE_CARACTERES})${extras}`;
+                alerta.style.display = 'flex';
+            } else {
+                alerta.style.display = 'none';
+            }
+        }
+
         // Actualizar el bloque de codigo con nuevo texto
         function actualizarCodigo(texto) {
             const bloque = document.getElementById('bloque-codigo');
             bloque.textContent = texto;
             Prism.highlightElement(bloque);
+            verificarLimiteCaracteres(texto);
         }
 
         // Sincronizacion automatica en vivo con codigo_para_visor.txt
@@ -615,7 +851,8 @@ while filas <= 0:
         async function generarCanvasCaptura() {
             const area = document.getElementById('area-captura');
             const esJpeg = (formatoActual === 'jpeg');
-            const esOscuro = document.getElementById('ventana-codigo').classList.contains('codigo-tema-oscuro');
+            const ventana = document.getElementById('ventana-codigo');
+            const bgCodigo = window.getComputedStyle(ventana).getPropertyValue('--bg-codigo').trim() || '#1e1f29';
 
             // Determinar resolucion segun la calidad elegida
             let factorEscala = 3; // Por defecto HD
@@ -624,7 +861,7 @@ while filas <= 0:
             else if (calidadActual === '4k') factorEscala = 5; // Ultra 4K maximo detalle
 
             return await html2canvas(area, {
-                backgroundColor: esJpeg ? (esOscuro ? '#16181d' : '#ffffff') : null, // Solo JPG requiere fondo solido
+                backgroundColor: esJpeg ? bgCodigo : null, // Solo JPG requiere fondo solido
                 scale: factorEscala,
                 logging: false,
                 useCORS: true,
@@ -655,50 +892,69 @@ while filas <= 0:
             const extension = formatoActual === 'jpeg' ? 'jpg' : formatoActual;
 
             const enlace = document.createElement('a');
-            enlace.download = `codigo_${calidadActual}.${extension}`;
+            enlace.download = `codigo_${temaCodigoActual}_${calidadActual}.${extension}`;
             enlace.href = canvas.toDataURL(mimeType, 0.96);
             enlace.click();
             mostrarToast(`¡Descargado en ${formatoActual.toUpperCase()} (${calidadActual.toUpperCase()})!`);
         }
 
-        // Generar markup SVG vectorizado escalable infinito
+        // Generar markup SVG vectorizado escalable infinito con los colores del tema activo
         function generarStringSVG() {
             const ventana = document.getElementById('ventana-codigo');
             const ancho = ventana.offsetWidth;
             const alto = ventana.offsetHeight;
-            const esOscuro = ventana.classList.contains('codigo-tema-oscuro');
+            const estilo = window.getComputedStyle(ventana);
+
+            const bgCodigo = estilo.getPropertyValue('--bg-codigo').trim() || '#1e1f29';
+            const bordeCodigo = estilo.getPropertyValue('--borde-codigo').trim() || 'rgba(255,255,255,0.12)';
+            const haloExterior = estilo.getPropertyValue('--halo-exterior').trim() || 'rgba(255,255,255,0.06)';
+            const colorTexto = estilo.getPropertyValue('--color-texto').trim() || '#f8f8f2';
+            const colorComentario = estilo.getPropertyValue('--color-comentario').trim();
+            const colorKeyword = estilo.getPropertyValue('--color-keyword').trim();
+            const colorBuiltin = estilo.getPropertyValue('--color-builtin').trim() || colorKeyword;
+            const colorFuncion = estilo.getPropertyValue('--color-funcion').trim();
+            const colorString = estilo.getPropertyValue('--color-string').trim();
+            const colorNumero = estilo.getPropertyValue('--color-numero').trim();
+            const colorOperador = estilo.getPropertyValue('--color-operador').trim();
+            const colorPuntuacion = estilo.getPropertyValue('--color-puntuacion').trim();
+            const cabeceraBorde = estilo.getPropertyValue('--cabecera-mac-borde').trim();
+            const badgeBg = estilo.getPropertyValue('--badge-bg').trim();
+            const badgeColor = estilo.getPropertyValue('--badge-color').trim();
+
             const contenidoClon = ventana.cloneNode(true);
 
             return `<svg xmlns="http://www.w3.org/2000/svg" width="${ancho + 40}" height="${alto + 40}">
     <foreignObject width="100%" height="100%">
         <div xmlns="http://www.w3.org/1999/xhtml" style="padding: 20px; background: transparent; display: flex; justify-content: center;">
             <style>
-                @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap');
                 * { box-sizing: border-box; font-family: 'Fira Code', monospace; }
                 .ventana-codigo {
-                    background-color: ${esOscuro ? '#16181d' : '#ffffff'};
-                    border: 1px solid ${esOscuro ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'};
-                    outline: 1px solid ${esOscuro ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'};
+                    background-color: ${bgCodigo};
+                    border: 1px solid ${bordeCodigo};
+                    outline: 1px solid ${haloExterior};
                     outline-offset: 3px;
                     border-radius: 14px;
                     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
                     width: ${ancho}px;
                     overflow: hidden;
                 }
-                .cabecera-mac { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px 10px 18px; border-bottom: 1px solid ${esOscuro ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'}; }
+                .cabecera-mac { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px 10px 18px; border-bottom: 1px solid ${cabeceraBorde}; }
                 .botones-mac { display: flex; align-items: center; gap: 8px; }
                 .punto { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
                 .punto.rojo { background-color: #ff5f56; }
                 .punto.amarillo { background-color: #ffbd2e; }
                 .punto.verde { background-color: #27c93f; }
-                .etiqueta-lenguaje { font-size: 11px; color: ${esOscuro ? '#94a3b8' : '#64748b'}; background: ${esOscuro ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)'}; padding: 2px 7px; border-radius: 5px; }
-                .contenido-codigo { padding: 18px 24px 24px 24px; color: ${esOscuro ? '#e6edf3' : '#1f2328'}; font-size: 15px; line-height: 1.65; white-space: pre; }
-                .token.comment { color: ${esOscuro ? '#7d8590' : '#6e7781'}; font-style: italic; }
-                .token.keyword { color: ${esOscuro ? '#ff7b72' : '#cf222e'}; font-weight: 600; }
-                .token.string { color: ${esOscuro ? '#a5d6ff' : '#0a3069'}; }
-                .token.number { color: ${esOscuro ? '#79c0ff' : '#0550ae'}; }
-                .token.operator { color: ${esOscuro ? '#ff7b72' : '#cf222e'}; }
-                .token.punctuation { color: ${esOscuro ? '#c9d1d9' : '#24292f'}; }
+                .etiqueta-lenguaje { font-size: 11px; color: ${badgeColor}; background: ${badgeBg}; padding: 2px 7px; border-radius: 5px; }
+                .contenido-codigo { padding: 18px 24px 24px 24px; color: ${colorTexto}; font-size: 15px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+                .token.comment { color: ${colorComentario}; font-style: italic; }
+                .token.keyword { color: ${colorKeyword}; font-weight: 600; }
+                .token.builtin { color: ${colorBuiltin}; font-weight: 500; }
+                .token.function { color: ${colorFuncion}; }
+                .token.string { color: ${colorString}; }
+                .token.number { color: ${colorNumero}; }
+                .token.operator { color: ${colorOperador}; }
+                .token.punctuation { color: ${colorPuntuacion}; }
             </style>
             ${contenidoClon.outerHTML}
         </div>
@@ -711,7 +967,7 @@ while filas <= 0:
             const svgString = generarStringSVG();
             const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
             const enlace = document.createElement('a');
-            enlace.download = 'codigo_vectorial.svg';
+            enlace.download = `codigo_${temaCodigoActual}_vectorial.svg`;
             enlace.href = URL.createObjectURL(blob);
             enlace.click();
             mostrarToast('¡Descargado en SVG vectorial!');
