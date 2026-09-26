@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git/GitHub - Comandos Básicos</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        git: {
+                            orange: '#F1502F',
+                            bg: '#F6F8FA',
+                            card: '#FFFFFF',
+                            border: '#D0D7DE',
+                            text: '#1F2328',
+                            muted: '#656D76'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F6F8FA;
+            color: #1F2328;
+        }
+
+        .code-block {
+            scrollbar-width: thin;
+            scrollbar-color: #CBD5E1 transparent;
+        }
+
+        .code-block::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background-color: #CBD5E1;
+            border-radius: 20px;
+        }
+
+        .comment {
+            color: #6E7781;
+            font-style: italic;
+        }
+
+        .command {
+            color: #0969DA;
+            font-weight: 600;
+        }
+
+        .string {
+            color: #0550AE;
+        }
+
+        /* Toast Animation */
+        @keyframes slideUpFade {
+            0% {
+                transform: translate(-50%, 1rem);
+                opacity: 0;
+            }
+
+            10% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+
+            90% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -1rem);
+                opacity: 0;
+            }
+        }
+
+        .toast {
+            animation: slideUpFade 3s forwards;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-8 font-sans antialiased">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6 border-b border-git-border/60 pb-6">
+            <div>
+                <h1
+                    class="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 flex items-center justify-center md:justify-start gap-4">
+                    <i class="fa-brands fa-git-alt text-git-orange"></i>
+                    Git / GitHub
+                </h1>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+
+            <!-- 1. Configuración inicial -->
+            <div
+                class="bg-git-card border border-git-border rounded-xl overflow-hidden hover:border-gray-400 hover:shadow-md transition-all shadow-sm">
+                <div class="px-5 py-4 border-b border-git-border bg-gray-50">
+                    <h2 class="font-semibold text-lg text-gray-900">1. Configuración inicial</h2>
+                </div>
+                <div class="p-5">
+                    <p class="text-sm text-git-muted mb-3">(Solo una vez por equipo/usuario)</p>
+                    <div class="relative group">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-4 code-block overflow-x-auto font-mono text-sm leading-relaxed text-gray-800"><code class="block whitespace-pre"><span class="command">git config</span> --global user.name <span class="string">"Tu Nombre"</span>
+<span class="command">git config</span> --global user.email <span class="string">"tu@email.com"</span></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Clonar un repositorio -->
+            <div
+                class="bg-git-card border border-git-border rounded-xl overflow-hidden hover:border-gray-400 hover:shadow-md transition-all shadow-sm">
+                <div class="px-5 py-4 border-b border-git-border bg-gray-50">
+                    <h2 class="font-semibold text-lg text-gray-900">2. Clonar un repositorio</h2>
+                </div>
+                <div class="p-5">
+                    <div class="relative group">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-4 code-block overflow-x-auto font-mono text-sm leading-relaxed text-gray-800"><code class="block whitespace-pre"><span class="command">git clone</span> https://github.com/usuario/repositorio.git
+<span class="command">cd</span> repositorio</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Flujo básico: commit y push -->
+            <div
+                class="bg-git-card border border-git-border rounded-xl overflow-hidden hover:border-gray-400 hover:shadow-md transition-all shadow-sm lg:col-span-2 xl:col-span-1 xl:row-span-2">
+                <div class="px-5 py-4 border-b border-git-border bg-gray-50">
+                    <h2 class="font-semibold text-lg text-gray-900">3. Flujo básico</h2>
+                </div>
+                <div class="p-5">
+                    <div class="relative group h-full">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-4 code-block overflow-x-auto font-mono text-sm leading-relaxed h-full text-gray-800"><code class="block whitespace-pre"><span class="comment"># ver qué archivos cambiaron</span>
+<span class="command">git status</span>
+
+<span class="comment"># agregar todos los cambios</span>
+<span class="command">git add</span> .
+
+<span class="comment"># o agregar uno específico</span>
+<span class="command">git add</span> archivo.txt
+
+<span class="comment"># guardar cambios con descripción</span>
+<span class="command">git commit</span> -m <span class="string">"mensaje"</span>
+
+<span class="comment"># subir cambios a GitHub</span>
+<span class="command">git push</span> origin main</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Trabajar con ramas -->
+            <div
+                class="bg-git-card border border-git-border rounded-xl overflow-hidden hover:border-gray-400 hover:shadow-md transition-all shadow-sm lg:col-span-2">
+                <div class="px-5 py-4 border-b border-git-border bg-gray-50">
+                    <h2 class="font-semibold text-lg text-gray-900">4. Trabajar con ramas</h2>
+                </div>
+                <div class="p-5 flex flex-col md:flex-row gap-4">
+                    <div class="relative group flex-1">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-4 code-block overflow-x-auto font-mono text-sm leading-relaxed h-full text-gray-800"><code class="block whitespace-pre"><span class="comment"># ver ramas locales</span>
+<span class="command">git branch</span>
+
+<span class="comment"># ver todas (locales y remotas)</span>
+<span class="command">git branch</span> -a
+
+<span class="comment"># crear rama y cambiarse a ella</span>
+<span class="command">git checkout</span> -b mi-rama
+
+<span class="comment"># alternativa moderna (mismo efecto)</span>
+<span class="command">git switch</span> -c mi-rama</code></pre>
+                    </div>
+
+                    <div class="relative group flex-1">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-4 code-block overflow-x-auto font-mono text-sm leading-relaxed h-full text-gray-800"><code class="block whitespace-pre"><span class="comment"># cambiar a otra rama</span>
+<span class="command">git switch</span> main
+
+<span class="comment"># borrar rama local (ya mergeada)</span>
+<span class="command">git branch</span> -d mi-rama
+
+<span class="comment"># subir rama al remoto</span>
+<span class="command">git push</span> origin mi-rama</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Traer cambios del remoto -->
+            <div
+                class="bg-git-card border border-git-border rounded-xl overflow-hidden hover:border-gray-400 hover:shadow-md transition-all shadow-sm">
+                <div class="px-5 py-4 border-b border-git-border bg-gray-50">
+                    <h2 class="font-semibold text-lg text-gray-900">5. Traer cambios</h2>
+                </div>
+                <div class="p-5">
+                    <div class="relative group">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-4 code-block overflow-x-auto font-mono text-sm leading-relaxed text-gray-800"><code class="block whitespace-pre"><span class="comment"># traer y fusionar cambios</span>
+<span class="command">git pull</span> origin main
+
+<span class="comment"># solo traer sin fusionar</span>
+<span class="command">git fetch</span></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Flujo típico colaborativo -->
+            <div
+                class="bg-git-card border border-git-border rounded-xl overflow-hidden hover:border-gray-400 hover:shadow-md transition-all shadow-sm lg:col-span-2 xl:col-span-2 xl:row-span-2">
+                <div class="px-5 py-4 border-b border-git-border bg-gray-50">
+                    <h2 class="font-semibold text-lg text-gray-900">6. Flujo Típico Colaborativo</h2>
+                </div>
+                <div class="p-5">
+                    <div class="relative group h-full">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-5 code-block overflow-x-auto font-mono text-sm leading-relaxed h-full text-gray-800"><code class="block whitespace-pre"><span class="comment"># 1. Actualizar main</span>
+<span class="command">git switch</span> main
+<span class="command">git pull</span> origin main
+
+<span class="comment"># 2. Crear rama para tu tarea</span>
+<span class="command">git switch</span> -c feature/login
+
+<span class="comment"># 3. Trabajar, agregar y commitear</span>
+<span class="command">git add</span> .
+<span class="command">git commit</span> -m <span class="string">"agrego formulario de login"</span>
+
+<span class="comment"># 4. Subir tu rama</span>
+<span class="command">git push</span> origin feature/login
+
+<span class="comment"># 5. En GitHub → abrir Pull Request (PR) y pedir revisión</span>
+
+<span class="comment"># 6. Cuando se mergea, actualizar main y borrar rama local</span>
+<span class="command">git switch</span> main
+<span class="command">git pull</span> origin main
+<span class="command">git branch</span> -d feature/login</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Comandos de emergencia -->
+            <div
+                class="bg-git-card border-l-4 border-l-red-500 border border-git-border rounded-xl overflow-hidden hover:border-gray-400 hover:shadow-md transition-all shadow-sm">
+                <div class="px-5 py-4 border-b border-git-border bg-gray-50">
+                    <h2 class="font-semibold text-lg text-gray-900">7. Emergencia</h2>
+                </div>
+                <div class="p-5">
+                    <div class="relative group">
+                        <button onclick="copyCode(this)"
+                            class="absolute right-2 top-2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 border border-git-border shadow-sm"
+                            title="Copiar código">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <pre
+                            class="bg-[#F6F8FA] border border-git-border rounded-lg p-4 code-block overflow-x-auto font-mono text-sm leading-relaxed text-gray-800"><code class="block whitespace-pre"><span class="comment"># ver historial resumido</span>
+<span class="command">git log</span> --oneline
+
+<span class="comment"># ver cambios sin agregar</span>
+<span class="command">git diff</span>
+
+<span class="comment"># descartar cambios de un archivo</span>
+<span class="command">git restore</span> archivo.txt
+
+<span class="comment"># quitar del staging (des-hacer git add)</span>
+<span class="command">git reset</span> HEAD archivo.txt</code></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 pointer-events-none"></div>
+
+    <script>
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast mb-4 bg-emerald-600 text-white px-4 py-2 rounded-lg shadow-lg font-medium flex items-center gap-2';
+            toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
+
+            container.appendChild(toast);
+
+            // Remove toast after animation ends (3s)
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function copyCode(button) {
+            // Find the <pre> block relative to the button
+            const preBlock = button.nextElementSibling;
+            // Get raw text content, stripping HTML tags but preserving newlines
+            const textToCopy = preBlock.innerText;
+
+            // Fallback for older browsers / iframe compatibility
+            const fallbackCopy = (text) => {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    return true;
+                } catch (err) {
+                    console.error('Error al copiar (fallback): ', err);
+                    return false;
+                } finally {
+                    document.body.removeChild(textArea);
+                }
+            };
+
+            const successFeedback = () => {
+                // Change icon temporarily
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fa-solid fa-check text-emerald-600"></i>';
+                button.classList.add('opacity-100');
+
+                showToast('¡Código copiado!');
+
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('opacity-100');
+                }, 2000);
+            };
+
+            // Try modern clipboard API first
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(successFeedback).catch((err) => {
+                    console.warn('Clipboard API failed, trying fallback...', err);
+                    if (fallbackCopy(textToCopy)) successFeedback();
+                });
+            } else {
+                // Use fallback if API not available
+                if (fallbackCopy(textToCopy)) successFeedback();
+            }
+        }
+    </script>
+</body>
+
+</html>
