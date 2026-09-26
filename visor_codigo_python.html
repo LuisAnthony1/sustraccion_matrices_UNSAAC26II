@@ -241,8 +241,8 @@
             padding: 8px 16px;
             border-radius: 50px;
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
-            backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
         }
 
         /* Grupos de selectores (Formato y Calidad) */
@@ -383,6 +383,15 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .toast-icono {
+            width: 16px;
+            height: 16px;
+            stroke: #ffffff;
+            fill: none;
+            stroke-width: 2.5;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -421,7 +430,6 @@ while filas <= 0:
     <div class="barra-minimalista">
         <!-- Selector de formato -->
         <div class="selector-grupo">
-            <span class="grupo-label">Formato</span>
             <div class="selector-pildora">
                 <button class="btn-opcion activo" id="fmt-png" onclick="establecerFormato('png')">PNG</button>
                 <button class="btn-opcion" id="fmt-webp" onclick="establecerFormato('webp')">WEBP</button>
@@ -434,7 +442,6 @@ while filas <= 0:
 
         <!-- Selector de calidad -->
         <div class="selector-grupo">
-            <span class="grupo-label">Calidad</span>
             <div class="selector-pildora">
                 <button class="btn-opcion" id="cal-normal" onclick="establecerCalidad('normal')">Normal</button>
                 <button class="btn-opcion activo" id="cal-hd" onclick="establecerCalidad('hd')">HD</button>
@@ -445,7 +452,7 @@ while filas <= 0:
         <div class="separador"></div>
 
         <!-- Descargar Imagen -->
-        <button class="btn-icono" data-tooltip="Descargar Imagen" onclick="descargarImagen()">
+        <button class="btn-icono" id="btn-descargar" title="Descargar imagen" aria-label="Descargar imagen" data-tooltip="Descargar Imagen" onclick="descargarImagen()">
             <svg viewBox="0 0 24 24">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -453,8 +460,8 @@ while filas <= 0:
             </svg>
         </button>
 
-        <!-- Copiar Imagen al Portapapeles (en tamaño regular) -->
-        <button class="btn-icono" data-tooltip="Copiar Imagen (Tamaño Regular)" onclick="copiarImagen()">
+        <!-- Copiar Imagen al Portapapeles -->
+        <button class="btn-icono" id="btn-copiar" title="Copiar imagen al portapapeles" aria-label="Copiar imagen al portapapeles" data-tooltip="Copiar Imagen" onclick="copiarImagen()">
             <svg viewBox="0 0 24 24">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -464,7 +471,7 @@ while filas <= 0:
         <div class="separador"></div>
 
         <!-- Alternar Tema del Codigo (Oscuro / Claro) -->
-        <button class="btn-icono" id="btn-tema-codigo" data-tooltip="Tema del Código (Oscuro / Claro)" onclick="alternarTemaCodigo()">
+        <button class="btn-icono" id="btn-tema-codigo" title="Alternar tema del código (Oscuro / Claro)" aria-label="Alternar tema del código (Oscuro / Claro)" data-tooltip="Tema del Código (Oscuro / Claro)" onclick="alternarTemaCodigo()">
             <svg viewBox="0 0 24 24">
                 <polyline points="16 18 22 12 16 6"></polyline>
                 <polyline points="8 6 2 12 8 18"></polyline>
@@ -472,7 +479,7 @@ while filas <= 0:
         </button>
 
         <!-- Alternar Tema de la App (Oscuro / Claro) -->
-        <button class="btn-icono" id="btn-tema-app" data-tooltip="Tema de la Página (Oscuro / Claro)" onclick="alternarTemaApp()">
+        <button class="btn-icono" id="btn-tema-app" title="Alternar tema de la página (Oscuro / Claro)" aria-label="Alternar tema de la página (Oscuro / Claro)" data-tooltip="Tema de la Página (Oscuro / Claro)" onclick="alternarTemaApp()">
             <svg viewBox="0 0 24 24">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
@@ -481,7 +488,7 @@ while filas <= 0:
 
     <!-- Mensaje flotante de exito al copiar -->
     <div id="toast-copiado">
-        <svg style="width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5;" viewBox="0 0 24 24">
+        <svg class="toast-icono" viewBox="0 0 24 24">
             <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
         <span>¡Imagen copiada al portapapeles!</span>
@@ -499,15 +506,17 @@ while filas <= 0:
         // Establecer formato (PNG, WEBP, JPEG, SVG)
         function establecerFormato(fmt) {
             formatoActual = fmt;
-            document.querySelectorAll('.selector-grupo:first-child .btn-opcion').forEach(btn => btn.classList.remove('activo'));
-            document.getElementById(`fmt-${fmt}`).classList.add('activo');
+            document.querySelectorAll('[id^="fmt-"]').forEach(btn => btn.classList.remove('activo'));
+            const btn = document.getElementById(`fmt-${fmt}`);
+            if (btn) btn.classList.add('activo');
         }
 
         // Establecer calidad (Normal = scale 2, HD = scale 3, 4K = scale 5)
         function establecerCalidad(cal) {
             calidadActual = cal;
-            document.querySelectorAll('.selector-grupo:nth-child(3) .btn-opcion').forEach(btn => btn.classList.remove('activo'));
-            document.getElementById(`cal-${cal}`).classList.add('activo');
+            document.querySelectorAll('[id^="cal-"]').forEach(btn => btn.classList.remove('activo'));
+            const btn = document.getElementById(`cal-${cal}`);
+            if (btn) btn.classList.add('activo');
         }
 
         // Alternar tema del codigo de manera independiente
@@ -602,23 +611,20 @@ while filas <= 0:
             }
         });
 
-        // Generar canvas con fondo 100% transparente garantizado
-        async function generarCanvasCaptura(esParaCopiar = false) {
+        // Generar canvas con fondo 100% transparente garantizado segun calidad seleccionada
+        async function generarCanvasCaptura() {
             const area = document.getElementById('area-captura');
             const esJpeg = (formatoActual === 'jpeg');
+            const esOscuro = document.getElementById('ventana-codigo').classList.contains('codigo-tema-oscuro');
 
-            // Determinar resolucion
+            // Determinar resolucion segun la calidad elegida
             let factorEscala = 3; // Por defecto HD
-            if (esParaCopiar) {
-                factorEscala = 2; // Tamano regular normal para pegar en chats/docs sin desbordar
-            } else {
-                if (calidadActual === 'normal') factorEscala = 2;
-                else if (calidadActual === 'hd') factorEscala = 3;
-                else if (calidadActual === '4k') factorEscala = 5; // Ultra 4K maximo detalle
-            }
+            if (calidadActual === 'normal') factorEscala = 2;
+            else if (calidadActual === 'hd') factorEscala = 3;
+            else if (calidadActual === '4k') factorEscala = 5; // Ultra 4K maximo detalle
 
             return await html2canvas(area, {
-                backgroundColor: esJpeg ? '#16181d' : null, // Solo JPG tiene fondo solido, PNG y WEBP transparente
+                backgroundColor: esJpeg ? (esOscuro ? '#16181d' : '#ffffff') : null, // Solo JPG requiere fondo solido
                 scale: factorEscala,
                 logging: false,
                 useCORS: true,
@@ -644,7 +650,7 @@ while filas <= 0:
                 return;
             }
 
-            const canvas = await generarCanvasCaptura(false);
+            const canvas = await generarCanvasCaptura();
             const mimeType = formatoActual === 'jpeg' ? 'image/jpeg' : (formatoActual === 'webp' ? 'image/webp' : 'image/png');
             const extension = formatoActual === 'jpeg' ? 'jpg' : formatoActual;
 
@@ -652,19 +658,18 @@ while filas <= 0:
             enlace.download = `codigo_${calidadActual}.${extension}`;
             enlace.href = canvas.toDataURL(mimeType, 0.96);
             enlace.click();
+            mostrarToast(`¡Descargado en ${formatoActual.toUpperCase()} (${calidadActual.toUpperCase()})!`);
         }
 
-        // Exportacion directa a SVG vectorizado escalable infinito
-        function descargarSVGVectorial() {
+        // Generar markup SVG vectorizado escalable infinito
+        function generarStringSVG() {
             const ventana = document.getElementById('ventana-codigo');
             const ancho = ventana.offsetWidth;
             const alto = ventana.offsetHeight;
             const esOscuro = ventana.classList.contains('codigo-tema-oscuro');
-
             const contenidoClon = ventana.cloneNode(true);
 
-            const svgString = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${ancho + 40}" height="${alto + 40}">
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="${ancho + 40}" height="${alto + 40}">
     <foreignObject width="100%" height="100%">
         <div xmlns="http://www.w3.org/1999/xhtml" style="padding: 20px; background: transparent; display: flex; justify-content: center;">
             <style>
@@ -699,23 +704,40 @@ while filas <= 0:
         </div>
     </foreignObject>
 </svg>`;
+        }
 
+        // Exportacion directa a SVG vectorizado escalable infinito
+        function descargarSVGVectorial() {
+            const svgString = generarStringSVG();
             const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
             const enlace = document.createElement('a');
             enlace.download = 'codigo_vectorial.svg';
             enlace.href = URL.createObjectURL(blob);
             enlace.click();
+            mostrarToast('¡Descargado en SVG vectorial!');
         }
 
-        // Copiar imagen en tamano regular normal al portapapeles
+        // Copiar imagen en el formato y calidad actualmente seleccionados
         async function copiarImagen() {
             try {
-                const canvas = await generarCanvasCaptura(true); // scale 2 (tamano regular normal)
+                if (formatoActual === 'svg') {
+                    const svgString = generarStringSVG();
+                    await navigator.clipboard.writeText(svgString);
+                    mostrarToast('¡Código SVG copiado al portapapeles!');
+                    return;
+                }
+
+                const canvas = await generarCanvasCaptura();
                 canvas.toBlob(async (blob) => {
                     if (!blob) return;
-                    const item = new ClipboardItem({ 'image/png': blob });
-                    await navigator.clipboard.write([item]);
-                    mostrarToast();
+                    try {
+                        const item = new ClipboardItem({ 'image/png': blob });
+                        await navigator.clipboard.write([item]);
+                        mostrarToast(`¡Copiado en calidad ${calidadActual.toUpperCase()}!`);
+                    } catch (clipErr) {
+                        console.error("Error al escribir en portapapeles:", clipErr);
+                        alert("No se pudo copiar automáticamente. Usa el botón de descargar.");
+                    }
                 }, 'image/png');
             } catch (err) {
                 console.error("Error al copiar imagen:", err);
@@ -723,9 +745,11 @@ while filas <= 0:
             }
         }
 
-        // Mostrar notificacion flotante de copiado
-        function mostrarToast() {
+        // Mostrar notificacion flotante de copiado o descarga
+        function mostrarToast(mensaje = '¡Imagen copiada al portapapeles!') {
             const toast = document.getElementById('toast-copiado');
+            const toastSpan = toast.querySelector('span');
+            if (toastSpan) toastSpan.textContent = mensaje;
             toast.classList.add('activo');
             setTimeout(() => {
                 toast.classList.remove('activo');
