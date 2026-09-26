@@ -32,6 +32,28 @@ def imprimir_matriz_consola(matriz, nombre="Matriz"):
         print("  [ " + "  ".join(elementos) + " ]")
 
 
+def pedir_dimension_consola(nombre_dimension):
+    """
+    Solicita en un bucle permanente una dimensión (filas o columnas) hasta que
+    el usuario ingrese un número entero estrictamente positivo (> 0).
+
+    Parámetros:
+        nombre_dimension (str): Nombre de la dimensión ('filas' o 'columnas').
+
+    Retorna:
+        int: Número entero positivo validado.
+    """
+    while True:
+        try:
+            entrada = input(f"Ingrese la cantidad de {nombre_dimension}: ").strip()
+            valor = int(entrada)
+            if valor > 0:
+                return valor
+            print(f"  [!] La cantidad de {nombre_dimension} debe ser mayor a cero.")
+        except ValueError:
+            print("  [!] Entrada inválida. Ingrese un número entero.")
+
+
 def pedir_matriz_consola(nombre, filas, columnas):
     """
     Solicita al usuario ingresar los elementos de una matriz celda por celda por consola,
@@ -138,30 +160,31 @@ def restar_matrices_comprension(matriz_a, matriz_b):
 
 def ejecutar_modo_consola():
     """
-    Ejecuta el Método 2 de forma interactiva en la terminal,
-    solicitando dimensiones y elementos al usuario con inputs por consola.
+    Ejecuta el Método 2 de forma interactiva en la terminal en un bucle permanente,
+    solicitando dimensiones y elementos al usuario con inputs validados.
     """
     print("=" * 65)
     print("   UNSAAC - INGENIERÍA INFORMÁTICA Y DE SISTEMAS")
     print("   SUSTRACCIÓN DE MATRICES: MÉTODO 2 (COMPRENSIÓN DE LISTAS)")
     print("=" * 65)
-    try:
-        filas = int(input("Ingrese la cantidad de filas: ").strip())
-        columnas = int(input("Ingrese la cantidad de columnas: ").strip())
+    while True:
+        try:
+            filas = pedir_dimension_consola("filas")
+            columnas = pedir_dimension_consola("columnas")
 
-        if filas <= 0 or columnas <= 0:
-            print("[!] Las dimensiones deben ser números enteros mayores a cero.")
-            return
+            matriz_a = pedir_matriz_consola("A", filas, columnas)
+            matriz_b = pedir_matriz_consola("B", filas, columnas)
 
-        matriz_a = pedir_matriz_consola("A", filas, columnas)
-        matriz_b = pedir_matriz_consola("B", filas, columnas)
+            restar_matrices_comprension(matriz_a, matriz_b)
 
-        resultado = restar_matrices_comprension(matriz_a, matriz_b)
-        return resultado
-    except ValueError:
-        print("[!] Error: Debe ingresar números enteros válidos para las dimensiones.")
-    except KeyboardInterrupt:
-        print("\n\nOperación cancelada por el usuario.")
+            continuar = input("¿Desea realizar otra operación? (s/n): ").strip().lower()
+            if continuar not in ("s", "si", "sí", "y", "yes"):
+                print("Saliendo del programa...")
+                break
+            print("\n" + "=" * 65 + "\n")
+        except KeyboardInterrupt:
+            print("\n\nOperación cancelada por el usuario.")
+            break
 
 
 if __name__ == "__main__":
