@@ -1,5 +1,5 @@
 # registro de sustraccion de matrices - menu para elegir metodo
-# unsaac - ingenieria informatica y de sistemas
+# unsaac - codigo basico para consola
 
 import numpy as np
 
@@ -7,27 +7,25 @@ print("=================================================================")
 print("   sustraccion de matrices: registro de metodos")
 print("=================================================================")
 
-# pedimos la cantidad de filas
-while True:
+# pedimos la cantidad de filas con condicion
+filas = 0
+while filas <= 0:
     try:
         filas = int(input("ingrese la cantidad de filas: "))
-        if filas > 0:
-            break
-        else:
+        if filas <= 0:
             print("la cantidad de filas debe ser mayor a 0")
     except:
-        print("ingrese un numero entero valido")
+        print("error, ingrese un numero entero")
 
-# pedimos la cantidad de columnas
-while True:
+# pedimos la cantidad de columnas con condicion
+columnas = 0
+while columnas <= 0:
     try:
         columnas = int(input("ingrese la cantidad de columnas: "))
-        if columnas > 0:
-            break
-        else:
+        if columnas <= 0:
             print("la cantidad de columnas debe ser mayor a 0")
     except:
-        print("ingrese un numero entero valido")
+        print("error, ingrese un numero entero")
 
 # pedimos los datos para la matriz a
 print("\ningrese los elementos de la matriz a:")
@@ -35,15 +33,15 @@ matriz_a = []
 for i in range(filas):
     fila = []
     for j in range(columnas):
-        while True:
+        # condicion para repetir solo si el valor ingresado no es float
+        es_valido = False
+        while es_valido == False:
             try:
                 valor = float(input(f"ingrese a[{i + 1}][{j + 1}]: "))
-                if valor.is_integer():
-                    valor = int(valor)
-                fila.append(valor)
-                break
+                es_valido = True
             except:
-                print("ingrese un numero valido")
+                print("error, ingrese un numero valido")
+        fila.append(valor)
     matriz_a.append(fila)
 
 # pedimos los datos para la matriz b
@@ -52,15 +50,15 @@ matriz_b = []
 for i in range(filas):
     fila = []
     for j in range(columnas):
-        while True:
+        # condicion para repetir solo si el valor ingresado no es float
+        es_valido = False
+        while es_valido == False:
             try:
                 valor = float(input(f"ingrese b[{i + 1}][{j + 1}]: "))
-                if valor.is_integer():
-                    valor = int(valor)
-                fila.append(valor)
-                break
+                es_valido = True
             except:
-                print("ingrese un numero valido")
+                print("error, ingrese un numero valido")
+        fila.append(valor)
     matriz_b.append(fila)
 
 # mostramos el menu para elegir cual metodo usar
@@ -70,7 +68,11 @@ print("2. metodo 2: comprension de listas")
 print("3. metodo 3: vectorizacion con numpy")
 print("4. probar los 3 metodos a la vez")
 
-opcion = input("seleccione una opcion (1-4): ").strip()
+opcion = ""
+while opcion != "1" and opcion != "2" and opcion != "3" and opcion != "4":
+    opcion = input("seleccione una opcion (1-4): ").strip()
+    if opcion != "1" and opcion != "2" and opcion != "3" and opcion != "4":
+        print("opcion no valida, ingrese un numero del 1 al 4")
 
 # metodo 1 con bucles for
 if opcion == "1":
@@ -141,9 +143,6 @@ elif opcion == "4":
     print(f"resultado comprension: {c_comprension}")
     print(f"resultado numpy:       {c_numpy}")
     print(f"¿los 3 dieron lo mismo?: {c_bucles == c_comprension}")
-
-else:
-    print("opcion no valida")
 
 print("=================================================================")
 print("programa finalizado.")

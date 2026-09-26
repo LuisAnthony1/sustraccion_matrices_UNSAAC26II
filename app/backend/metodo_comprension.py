@@ -1,66 +1,62 @@
 # sustraccion de matrices - metodo 2 con comprension de listas
-# unsaac - ingenieria informatica y de sistemas
+# unsaac - codigo basico para consola
 
 print("=================================================================")
 print("   sustraccion de matrices: metodo 2 (comprension de listas)")
 print("=================================================================")
 
-# pedimos la cantidad de filas
-while True:
+# pedimos la cantidad de filas con condicion
+filas = 0
+while filas <= 0:
     try:
         filas = int(input("ingrese la cantidad de filas: "))
-        if filas > 0:
-            break
-        else:
+        if filas <= 0:
             print("la cantidad de filas debe ser mayor a 0")
     except:
-        print("ingrese un numero entero valido")
+        print("error, ingrese un numero entero")
 
-# pedimos la cantidad de columnas
-while True:
+# pedimos la cantidad de columnas con condicion
+columnas = 0
+while columnas <= 0:
     try:
         columnas = int(input("ingrese la cantidad de columnas: "))
-        if columnas > 0:
-            break
-        else:
+        if columnas <= 0:
             print("la cantidad de columnas debe ser mayor a 0")
     except:
-        print("ingrese un numero entero valido")
+        print("error, ingrese un numero entero")
 
-# pedimos los datos para la matriz a
+# pedimos los elementos de la matriz a
 print("\ningrese los elementos de la matriz a:")
 matriz_a = []
 for i in range(filas):
     fila = []
     for j in range(columnas):
-        while True:
+        # condicion para repetir solo si el valor ingresado no es float
+        es_valido = False
+        while es_valido == False:
             try:
                 valor = float(input(f"ingrese a[{i + 1}][{j + 1}]: "))
-                # si es entero lo guardamos como entero
-                if valor.is_integer():
-                    valor = int(valor)
-                fila.append(valor)
-                break
+                es_valido = True
             except:
-                print("ingrese un numero valido")
+                print("error, ingrese un numero valido")
+        fila.append(valor)
     matriz_a.append(fila)
 
-# pedimos los datos para la matriz b
+# pedimos los elementos de la matriz b
 print("\ningrese los elementos de la matriz b:")
 matriz_b = []
 for i in range(filas):
     fila = []
     for j in range(columnas):
-        while True:
+        # condicion para repetir solo si el valor ingresado no es float
+        es_valido = False
+        while es_valido == False:
             try:
                 valor = float(input(f"ingrese b[{i + 1}][{j + 1}]: "))
-                # si es entero lo guardamos como entero
-                if valor.is_integer():
-                    valor = int(valor)
-                fila.append(valor)
-                break
+                es_valido = True
             except:
-                print("ingrese un numero valido")
+                print("error, ingrese un numero valido")
+        fila.append(valor)
     matriz_b.append(fila)
 
 # mostramos la matriz a
@@ -80,19 +76,15 @@ for i in range(filas):
 # mostramos la evaluacion fila por fila
 print("\nevaluacion fila por fila:")
 for i in range(filas):
-    restas_fila = [f"{matriz_a[i][j]} - {matriz_b[i][j]}" for j in range(columnas)]
-    resultado_fila = [matriz_a[i][j] - matriz_b[i][j] for j in range(columnas)]
     print(f"fila {i + 1}: {matriz_a[i]} - {matriz_b[i]}")
-    print(f"       = [{', '.join(restas_fila)}]")
-    print(f"      => {resultado_fila}")
 
-# calculamos la matriz c usando comprension de listas
+# calculamos la resta con comprension de listas
 matriz_c = [
     [matriz_a[i][j] - matriz_b[i][j] for j in range(columnas)]
     for i in range(filas)
 ]
 
-# mostramos la matriz resultante c
+# mostramos la matriz resultado c
 print("\nmatriz resultante c:")
 for i in range(filas):
     for j in range(columnas):
