@@ -247,28 +247,17 @@
 
         .etiqueta-lenguaje {
             font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
-            letter-spacing: 0.2px;
+            letter-spacing: 0.3px;
             color: var(--badge-color);
-            background: var(--badge-bg);
-            border: 1px solid var(--cabecera-mac-borde);
-            padding: 2px 7px;
-            border-radius: 5px;
-            text-transform: none;
-            cursor: pointer;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0;
+            user-select: none;
+            cursor: default;
             outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .etiqueta-lenguaje:hover {
-            color: var(--color-texto);
-            border-color: var(--borde-codigo);
-        }
-
-        .etiqueta-lenguaje:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 1px #38bdf8;
         }
 
         /* Contenido del codigo con salto de linea limpio */
@@ -348,15 +337,79 @@
             z-index: 999;
             margin: 0;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             background: var(--toolbar-bg);
             border: 1px solid var(--toolbar-borde);
-            padding: 8px 18px;
-            border-radius: 50px;
-            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.26);
+            padding: 9px 18px 8px 18px;
+            border-radius: 36px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.26);
             -webkit-backdrop-filter: blur(16px);
             backdrop-filter: blur(16px);
+            max-width: 95vw;
+        }
+
+        .fila-superior {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .fila-inferior {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        /* Roll horizontal de extensiones y lenguajes */
+        .roll-lenguajes {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 2px 4px;
+            max-width: 100%;
+            scroll-behavior: smooth;
+        }
+
+        .roll-lenguajes::-webkit-scrollbar {
+            display: none;
+        }
+
+        .box-ext {
+            background: var(--toolbar-pildora-bg);
+            border: 1px solid transparent;
+            color: var(--toolbar-btn-color);
+            font-size: 11px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .box-ext:hover {
+            color: var(--color-app-texto);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .box-ext.activo {
+            background-color: var(--toolbar-btn-activo);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
         }
 
         /* Grupos de selectores (Formato y Calidad) */
@@ -566,7 +619,7 @@
         /* Notificacion flotante de copiado */
         #toast-copiado {
             position: fixed;
-            bottom: calc(5vh + 65px);
+            bottom: calc(5vh + 95px);
             left: 50%;
             transform: translateX(-50%) translateY(20px);
             background: #10b981;
@@ -598,11 +651,87 @@
             stroke-width: 2.5;
             display: inline-block;
         }
+
+        /* === BADGE DE AUTOR GITHUB EN ESQUINA SUPERIOR DERECHA === */
+        .badge-autor-github {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: var(--toolbar-bg);
+            border: 1px solid var(--toolbar-borde);
+            border-radius: 30px;
+            text-decoration: none;
+            color: var(--toolbar-btn-color);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .badge-autor-github:hover {
+            color: var(--color-app-texto);
+            border-color: rgba(56, 189, 248, 0.55);
+            box-shadow: 0 6px 24px rgba(56, 189, 248, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .icono-github {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .badge-autor-github:hover .icono-github {
+            transform: scale(1.15) rotate(6deg);
+        }
+
+        .texto-power {
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            color: var(--toolbar-btn-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nombre-autor {
+            font-weight: 700;
+            color: #0284c7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: all 0.2s ease;
+        }
+
+        body.app-tema-oscuro .nombre-autor {
+            color: #38bdf8;
+        }
+
+        .badge-autor-github:hover .nombre-autor {
+            filter: brightness(1.25);
+        }
     </style>
 </head>
 
 <!-- Por defecto: Tema de aplicacion claro y codigo en tema IDLE -->
 <body class="app-tema-claro">
+
+    <!-- Badge de autor GitHub en la esquina superior derecha -->
+    <a href="https://github.com/LuisAnthony1" target="_blank" rel="noopener noreferrer" class="badge-autor-github" id="badge-autor-github" title="Visitar perfil de GitHub de LuisAnthony1">
+        <svg class="icono-github" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        <span class="texto-power">power by <strong class="nombre-autor">LuisAnthony01</strong></span>
+    </a>
 
     <!-- Alerta de desbordamiento horizontal (Simple texto rojo estático en pantalla) -->
     <div id="alerta-overflow" class="alerta-overflow" style="display: none;"></div>
@@ -618,7 +747,7 @@
                         <span class="punto amarillo"></span>
                         <span class="punto verde"></span>
                     </div>
-                    <span class="etiqueta-lenguaje" contenteditable="true" spellcheck="false" title="Clic para editar extensión o nombre">py {Python}</span>
+                    <span class="etiqueta-lenguaje" id="etiqueta-lenguaje">py {Python}</span>
                 </div>
 
                 <!-- Codigo coloreado con salto de linea limpio -->
@@ -637,66 +766,109 @@ while filas <= 0:
         </div>
     </div>
 
-    <!-- Barra de controles flotante elevada al 5% de la pantalla -->
+    <!-- Barra de controles flotante elevada al 5% de la pantalla (2 filas) -->
     <div class="barra-minimalista">
-        <!-- Selector de formato (Solo imagenes reales) -->
-        <div class="selector-grupo">
-            <div class="selector-pildora">
-                <button class="btn-opcion activo" id="fmt-png" data-tooltip="PNG (Máxima nitidez con transparencia)" onclick="establecerFormato('png')">PNG</button>
-                <button class="btn-opcion" id="fmt-webp" data-tooltip="WEBP (Alta definición ultra optimizada)" onclick="establecerFormato('webp')">WEBP</button>
-                <button class="btn-opcion" id="fmt-jpeg" data-tooltip="JPG (Fondo sólido opaco clásico)" onclick="establecerFormato('jpeg')">JPG</button>
+        <!-- Fila 1: Controles de exportacion y apariencia -->
+        <div class="fila-superior">
+            <!-- Selector de formato (Solo imagenes reales) -->
+            <div class="selector-grupo">
+                <div class="selector-pildora">
+                    <button class="btn-opcion activo" id="fmt-png" data-tooltip="PNG (Máxima nitidez con transparencia)" onclick="establecerFormato('png')">PNG</button>
+                    <button class="btn-opcion" id="fmt-webp" data-tooltip="WEBP (Alta definición ultra optimizada)" onclick="establecerFormato('webp')">WEBP</button>
+                    <button class="btn-opcion" id="fmt-jpeg" data-tooltip="JPG (Fondo sólido opaco clásico)" onclick="establecerFormato('jpeg')">JPG</button>
+                </div>
+            </div>
+
+            <div class="separador"></div>
+
+            <!-- Selector de calidad -->
+            <div class="selector-grupo">
+                <div class="selector-pildora">
+                    <button class="btn-opcion" id="cal-normal" data-tooltip="Normal · PNG (~220 KB · 2600×1400px)" onclick="establecerCalidad('normal')">Normal</button>
+                    <button class="btn-opcion activo" id="cal-hd" data-tooltip="HD · PNG (~380 KB · 3900×2100px)" onclick="establecerCalidad('hd')">HD</button>
+                    <button class="btn-opcion" id="cal-4k" data-tooltip="4K Ultra · PNG (~580 KB · 5200×2800px)" onclick="establecerCalidad('4k')">4K</button>
+                </div>
+            </div>
+
+            <div class="separador"></div>
+
+            <!-- Selector de temas de colores (Gama de 5 circulos) -->
+            <div class="selector-temas">
+                <button class="circulo-tema activo" id="tema-dot-idle" data-tooltip="Python IDLE" aria-label="Python IDLE" onclick="establecerTemaCodigo('idle')"></button>
+                <button class="circulo-tema" id="tema-dot-vscode" data-tooltip="VS Code Dark+" aria-label="VS Code Dark+" onclick="establecerTemaCodigo('vscode')"></button>
+                <button class="circulo-tema" id="tema-dot-onedark" data-tooltip="One Dark Pro" aria-label="One Dark Pro" onclick="establecerTemaCodigo('onedark')"></button>
+                <button class="circulo-tema" id="tema-dot-dracula" data-tooltip="Dracula" aria-label="Dracula" onclick="establecerTemaCodigo('dracula')"></button>
+                <button class="circulo-tema" id="tema-dot-monokai" data-tooltip="Monokai Pro" aria-label="Monokai Pro" onclick="establecerTemaCodigo('monokai')"></button>
+            </div>
+
+            <!-- Boton de cambiar tema del box de codigo -->
+            <button class="btn-icono" id="btn-tema-codigo" title="Cambiar tema del código" aria-label="Cambiar tema del código" data-tooltip="Cambiar Tema del Código" onclick="alternarTemaCodigo()">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor"></path>
+                </svg>
+            </button>
+
+            <div class="separador"></div>
+
+            <!-- Descargar Imagen -->
+            <button class="btn-icono" id="btn-descargar" title="Descargar imagen" aria-label="Descargar imagen" data-tooltip="Descargar Imagen" onclick="descargarImagen()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+            </button>
+
+            <!-- Copiar Imagen al Portapapeles -->
+            <button class="btn-icono" id="btn-copiar" title="Copiar imagen al portapapeles" aria-label="Copiar imagen al portapapeles" data-tooltip="Copiar Imagen" onclick="copiarImagen()">
+                <svg viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+
+            <div class="separador"></div>
+
+            <!-- Alternar Tema de la App (Oscuro / Claro) -->
+            <button class="btn-icono" id="btn-tema-app" title="Alternar tema de la página (Oscuro / Claro)" aria-label="Alternar tema de la página (Oscuro / Claro)" data-tooltip="Tema de la Página (Oscuro / Claro)" onclick="alternarTemaApp()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Fila 2: Roll horizontal de extensiones y lenguajes -->
+        <div class="fila-inferior">
+            <div class="roll-lenguajes" id="roll-lenguajes">
+                <button class="box-ext activo" data-ext="py" data-nombre="Python" onclick="seleccionarLenguaje('py', 'Python')">py</button>
+                <button class="box-ext" data-ext="html" data-nombre="HTML" onclick="seleccionarLenguaje('html', 'HTML')">html</button>
+                <button class="box-ext" data-ext="css" data-nombre="CSS" onclick="seleccionarLenguaje('css', 'CSS')">css</button>
+                <button class="box-ext" data-ext="js" data-nombre="JavaScript" onclick="seleccionarLenguaje('js', 'JavaScript')">js</button>
+                <button class="box-ext" data-ext="ts" data-nombre="TypeScript" onclick="seleccionarLenguaje('ts', 'TypeScript')">ts</button>
+                <button class="box-ext" data-ext="jsx" data-nombre="React" onclick="seleccionarLenguaje('jsx', 'React')">jsx</button>
+                <button class="box-ext" data-ext="tsx" data-nombre="React TS" onclick="seleccionarLenguaje('tsx', 'React TS')">tsx</button>
+                <button class="box-ext" data-ext="cpp" data-nombre="C++" onclick="seleccionarLenguaje('cpp', 'C++')">cpp</button>
+                <button class="box-ext" data-ext="c" data-nombre="C" onclick="seleccionarLenguaje('c', 'C')">c</button>
+                <button class="box-ext" data-ext="cs" data-nombre="C#" onclick="seleccionarLenguaje('cs', 'C#')">cs</button>
+                <button class="box-ext" data-ext="java" data-nombre="Java" onclick="seleccionarLenguaje('java', 'Java')">java</button>
+                <button class="box-ext" data-ext="rs" data-nombre="Rust" onclick="seleccionarLenguaje('rs', 'Rust')">rs</button>
+                <button class="box-ext" data-ext="go" data-nombre="Go" onclick="seleccionarLenguaje('go', 'Go')">go</button>
+                <button class="box-ext" data-ext="php" data-nombre="PHP" onclick="seleccionarLenguaje('php', 'PHP')">php</button>
+                <button class="box-ext" data-ext="rb" data-nombre="Ruby" onclick="seleccionarLenguaje('rb', 'Ruby')">rb</button>
+                <button class="box-ext" data-ext="sql" data-nombre="SQL" onclick="seleccionarLenguaje('sql', 'SQL')">sql</button>
+                <button class="box-ext" data-ext="sh" data-nombre="Bash" onclick="seleccionarLenguaje('sh', 'Bash')">sh</button>
+                <button class="box-ext" data-ext="json" data-nombre="JSON" onclick="seleccionarLenguaje('json', 'JSON')">json</button>
+                <button class="box-ext" data-ext="yaml" data-nombre="YAML" onclick="seleccionarLenguaje('yaml', 'YAML')">yaml</button>
+                <button class="box-ext" data-ext="xml" data-nombre="XML" onclick="seleccionarLenguaje('xml', 'XML')">xml</button>
+                <button class="box-ext" data-ext="md" data-nombre="Markdown" onclick="seleccionarLenguaje('md', 'Markdown')">md</button>
+                <button class="box-ext" data-ext="dart" data-nombre="Dart" onclick="seleccionarLenguaje('dart', 'Dart')">dart</button>
+                <button class="box-ext" data-ext="kt" data-nombre="Kotlin" onclick="seleccionarLenguaje('kt', 'Kotlin')">kt</button>
+                <button class="box-ext" data-ext="swift" data-nombre="Swift" onclick="seleccionarLenguaje('swift', 'Swift')">swift</button>
+                <button class="box-ext" data-ext="lua" data-nombre="Lua" onclick="seleccionarLenguaje('lua', 'Lua')">lua</button>
+                <button class="box-ext" data-ext="r" data-nombre="R" onclick="seleccionarLenguaje('r', 'R')">r</button>
             </div>
         </div>
-
-        <div class="separador"></div>
-
-        <!-- Selector de calidad -->
-        <div class="selector-grupo">
-            <div class="selector-pildora">
-                <button class="btn-opcion" id="cal-normal" data-tooltip="Normal · PNG (~220 KB · 2600×1400px)" onclick="establecerCalidad('normal')">Normal</button>
-                <button class="btn-opcion activo" id="cal-hd" data-tooltip="HD · PNG (~380 KB · 3900×2100px)" onclick="establecerCalidad('hd')">HD</button>
-                <button class="btn-opcion" id="cal-4k" data-tooltip="4K Ultra · PNG (~580 KB · 5200×2800px)" onclick="establecerCalidad('4k')">4K</button>
-            </div>
-        </div>
-
-        <div class="separador"></div>
-
-        <!-- Selector de temas de colores (Gama de 5 circulos) -->
-        <div class="selector-temas">
-            <button class="circulo-tema activo" id="tema-dot-idle" data-tooltip="Python IDLE" aria-label="Python IDLE" onclick="establecerTemaCodigo('idle')"></button>
-            <button class="circulo-tema" id="tema-dot-vscode" data-tooltip="VS Code Dark+" aria-label="VS Code Dark+" onclick="establecerTemaCodigo('vscode')"></button>
-            <button class="circulo-tema" id="tema-dot-onedark" data-tooltip="One Dark Pro" aria-label="One Dark Pro" onclick="establecerTemaCodigo('onedark')"></button>
-            <button class="circulo-tema" id="tema-dot-dracula" data-tooltip="Dracula" aria-label="Dracula" onclick="establecerTemaCodigo('dracula')"></button>
-            <button class="circulo-tema" id="tema-dot-monokai" data-tooltip="Monokai Pro" aria-label="Monokai Pro" onclick="establecerTemaCodigo('monokai')"></button>
-        </div>
-
-        <div class="separador"></div>
-
-        <!-- Descargar Imagen -->
-        <button class="btn-icono" id="btn-descargar" title="Descargar imagen" aria-label="Descargar imagen" data-tooltip="Descargar Imagen" onclick="descargarImagen()">
-            <svg viewBox="0 0 24 24">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-        </button>
-
-        <!-- Copiar Imagen al Portapapeles -->
-        <button class="btn-icono" id="btn-copiar" title="Copiar imagen al portapapeles" aria-label="Copiar imagen al portapapeles" data-tooltip="Copiar Imagen" onclick="copiarImagen()">
-            <svg viewBox="0 0 24 24">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-        </button>
-
-        <div class="separador"></div>
-
-        <!-- Alternar Tema de la App (Oscuro / Claro) -->
-        <button class="btn-icono" id="btn-tema-app" title="Alternar tema de la página (Oscuro / Claro)" aria-label="Alternar tema de la página (Oscuro / Claro)" data-tooltip="Tema de la Página (Oscuro / Claro)" onclick="alternarTemaApp()">
-            <svg viewBox="0 0 24 24">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-        </button>
     </div>
 
     <!-- Mensaje flotante de exito al copiar o descargar -->
@@ -809,6 +981,43 @@ while filas <= 0:
             document.querySelectorAll('.circulo-tema').forEach(btn => btn.classList.remove('activo'));
             const dot = document.getElementById(`tema-dot-${tema}`);
             if (dot) dot.classList.add('activo');
+        }
+
+        const listaTemasCodigo = ['idle', 'vscode', 'onedark', 'dracula', 'monokai'];
+
+        // Alternar tema del codigo de manera independiente rotando por la paleta
+        function alternarTemaCodigo() {
+            const idxActual = listaTemasCodigo.indexOf(temaCodigoActual);
+            const siguienteIdx = (idxActual + 1) % listaTemasCodigo.length;
+            const siguienteTema = listaTemasCodigo[siguienteIdx];
+            establecerTemaCodigo(siguienteTema);
+            mostrarToast(`Tema del código: ${obtenerNombreTema(siguienteTema)}`);
+        }
+
+        function obtenerNombreTema(tema) {
+            const nombres = {
+                idle: 'Python IDLE',
+                vscode: 'VS Code Dark+',
+                onedark: 'One Dark Pro',
+                dracula: 'Dracula',
+                monokai: 'Monokai Pro'
+            };
+            return nombres[tema] || tema;
+        }
+
+        // Seleccionar lenguaje/extension y actualizar el texto de la cabecera
+        function seleccionarLenguaje(ext, nombre) {
+            document.querySelectorAll('.box-ext').forEach(b => b.classList.remove('activo'));
+            const btn = document.querySelector(`.box-ext[data-ext="${ext}"]`);
+            if (btn) {
+                btn.classList.add('activo');
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            const etiqueta = document.getElementById('etiqueta-lenguaje');
+            if (etiqueta) {
+                etiqueta.textContent = `${ext} {${nombre}}`;
+            }
         }
 
         // Alternar tema de la aplicacion de manera independiente
@@ -1003,6 +1212,17 @@ while filas <= 0:
             setTimeout(() => {
                 toast.classList.remove('activo');
             }, 2500);
+        }
+
+        // Scroll horizontal fluido con la rueda del raton en el roll de lenguajes
+        const rollEl = document.getElementById('roll-lenguajes');
+        if (rollEl) {
+            rollEl.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    rollEl.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
         }
 
         // Inicializar tooltips dinámicos al cargar
