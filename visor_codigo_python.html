@@ -634,13 +634,12 @@ while filas <= 0:
 
     <!-- Barra de controles flotante fija a 5px del fondo de pantalla -->
     <div class="barra-minimalista">
-        <!-- Selector de formato -->
+        <!-- Selector de formato (Solo imagenes reales) -->
         <div class="selector-grupo">
             <div class="selector-pildora">
                 <button class="btn-opcion activo" id="fmt-png" onclick="establecerFormato('png')">PNG</button>
                 <button class="btn-opcion" id="fmt-webp" onclick="establecerFormato('webp')">WEBP</button>
                 <button class="btn-opcion" id="fmt-jpeg" onclick="establecerFormato('jpeg')">JPG</button>
-                <button class="btn-opcion" id="fmt-svg" onclick="establecerFormato('svg')">SVG</button>
             </div>
         </div>
 
@@ -880,13 +879,8 @@ while filas <= 0:
             });
         }
 
-        // Descarga de archivo (soporta PNG, WEBP, JPG y SVG vectorizado)
+        // Descarga directa de archivo de imagen (PNG, WEBP o JPG)
         async function descargarImagen() {
-            if (formatoActual === 'svg') {
-                descargarSVGVectorial();
-                return;
-            }
-
             const canvas = await generarCanvasCaptura();
             const mimeType = formatoActual === 'jpeg' ? 'image/jpeg' : (formatoActual === 'webp' ? 'image/webp' : 'image/png');
             const extension = formatoActual === 'jpeg' ? 'jpg' : formatoActual;
@@ -895,109 +889,30 @@ while filas <= 0:
             enlace.download = `codigo_${temaCodigoActual}_${calidadActual}.${extension}`;
             enlace.href = canvas.toDataURL(mimeType, 0.96);
             enlace.click();
-            mostrarToast(`¡Descargado en ${formatoActual.toUpperCase()} (${calidadActual.toUpperCase()})!`);
+            mostrarToast(`¡Imagen descargada en ${extension.toUpperCase()} (${calidadActual.toUpperCase()})!`);
         }
 
-        // Generar markup SVG vectorizado escalable infinito con los colores del tema activo
-        function generarStringSVG() {
-            const ventana = document.getElementById('ventana-codigo');
-            const ancho = ventana.offsetWidth;
-            const alto = ventana.offsetHeight;
-            const estilo = window.getComputedStyle(ventana);
-
-            const bgCodigo = estilo.getPropertyValue('--bg-codigo').trim() || '#1e1f29';
-            const bordeCodigo = estilo.getPropertyValue('--borde-codigo').trim() || 'rgba(255,255,255,0.12)';
-            const haloExterior = estilo.getPropertyValue('--halo-exterior').trim() || 'rgba(255,255,255,0.06)';
-            const colorTexto = estilo.getPropertyValue('--color-texto').trim() || '#f8f8f2';
-            const colorComentario = estilo.getPropertyValue('--color-comentario').trim();
-            const colorKeyword = estilo.getPropertyValue('--color-keyword').trim();
-            const colorBuiltin = estilo.getPropertyValue('--color-builtin').trim() || colorKeyword;
-            const colorFuncion = estilo.getPropertyValue('--color-funcion').trim();
-            const colorString = estilo.getPropertyValue('--color-string').trim();
-            const colorNumero = estilo.getPropertyValue('--color-numero').trim();
-            const colorOperador = estilo.getPropertyValue('--color-operador').trim();
-            const colorPuntuacion = estilo.getPropertyValue('--color-puntuacion').trim();
-            const cabeceraBorde = estilo.getPropertyValue('--cabecera-mac-borde').trim();
-            const badgeBg = estilo.getPropertyValue('--badge-bg').trim();
-            const badgeColor = estilo.getPropertyValue('--badge-color').trim();
-
-            const contenidoClon = ventana.cloneNode(true);
-
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="${ancho + 40}" height="${alto + 40}">
-    <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="padding: 20px; background: transparent; display: flex; justify-content: center;">
-            <style>
-                @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;display=swap');
-                * { box-sizing: border-box; font-family: 'Fira Code', monospace; }
-                .ventana-codigo {
-                    background-color: ${bgCodigo};
-                    border: 1px solid ${bordeCodigo};
-                    outline: 1px solid ${haloExterior};
-                    outline-offset: 3px;
-                    border-radius: 14px;
-                    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-                    width: ${ancho}px;
-                    overflow: hidden;
-                }
-                .cabecera-mac { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px 10px 18px; border-bottom: 1px solid ${cabeceraBorde}; }
-                .botones-mac { display: flex; align-items: center; gap: 8px; }
-                .punto { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-                .punto.rojo { background-color: #ff5f56; }
-                .punto.amarillo { background-color: #ffbd2e; }
-                .punto.verde { background-color: #27c93f; }
-                .etiqueta-lenguaje { font-size: 11px; color: ${badgeColor}; background: ${badgeBg}; padding: 2px 7px; border-radius: 5px; }
-                .contenido-codigo { padding: 18px 24px 24px 24px; color: ${colorTexto}; font-size: 15px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
-                .token.comment { color: ${colorComentario}; font-style: italic; }
-                .token.keyword { color: ${colorKeyword}; font-weight: 600; }
-                .token.builtin { color: ${colorBuiltin}; font-weight: 500; }
-                .token.function { color: ${colorFuncion}; }
-                .token.string { color: ${colorString}; }
-                .token.number { color: ${colorNumero}; }
-                .token.operator { color: ${colorOperador}; }
-                .token.punctuation { color: ${colorPuntuacion}; }
-            </style>
-            ${contenidoClon.outerHTML}
-        </div>
-    </foreignObject>
-</svg>`;
-        }
-
-        // Exportacion directa a SVG vectorizado escalable infinito
-        function descargarSVGVectorial() {
-            const svgString = generarStringSVG();
-            const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-            const enlace = document.createElement('a');
-            enlace.download = `codigo_${temaCodigoActual}_vectorial.svg`;
-            enlace.href = URL.createObjectURL(blob);
-            enlace.click();
-            mostrarToast('¡Descargado en SVG vectorial!');
-        }
-
-        // Copiar imagen en el formato y calidad actualmente seleccionados
+        // Copiar imagen directamente al portapapeles (Formato imagen bitmap para pegar en cualquier app)
         async function copiarImagen() {
             try {
-                if (formatoActual === 'svg') {
-                    const svgString = generarStringSVG();
-                    await navigator.clipboard.writeText(svgString);
-                    mostrarToast('¡Código SVG copiado al portapapeles!');
-                    return;
-                }
-
                 const canvas = await generarCanvasCaptura();
                 canvas.toBlob(async (blob) => {
-                    if (!blob) return;
+                    if (!blob) {
+                        alert("Error al procesar la imagen para copiar.");
+                        return;
+                    }
                     try {
                         const item = new ClipboardItem({ 'image/png': blob });
                         await navigator.clipboard.write([item]);
-                        mostrarToast(`¡Copiado en calidad ${calidadActual.toUpperCase()}!`);
+                        mostrarToast(`¡Imagen copiada al portapapeles (${calidadActual.toUpperCase()})!`);
                     } catch (clipErr) {
                         console.error("Error al escribir en portapapeles:", clipErr);
-                        alert("No se pudo copiar automáticamente. Usa el botón de descargar.");
+                        alert("El navegador restringió el acceso directo al portapapeles. Usa el botón Descargar.");
                     }
                 }, 'image/png');
             } catch (err) {
                 console.error("Error al copiar imagen:", err);
-                alert("Para copiar directamente en este navegador, usa el botón de Descargar.");
+                alert("Error al generar la imagen. Usa el botón Descargar.");
             }
         }
 
