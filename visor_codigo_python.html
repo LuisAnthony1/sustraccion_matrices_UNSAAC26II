@@ -145,14 +145,29 @@
         .punto.verde { background-color: #27c93f; border: 1px solid #1aab29; }
 
         .etiqueta-lenguaje {
+            font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
             font-size: 11px;
             font-weight: 500;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.2px;
             color: var(--badge-color);
             background: var(--badge-bg);
-            padding: 2px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
+            border: 1px solid var(--cabecera-mac-borde);
+            padding: 2px 7px;
+            border-radius: 5px;
+            text-transform: none;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .etiqueta-lenguaje:hover {
+            color: var(--color-texto);
+            border-color: var(--borde-codigo);
+        }
+
+        .etiqueta-lenguaje:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 1px #38bdf8;
         }
 
         /* Contenido del codigo */
@@ -387,7 +402,7 @@
                     <span class="punto amarillo"></span>
                     <span class="punto verde"></span>
                 </div>
-                <span class="etiqueta-lenguaje">python</span>
+                <span class="etiqueta-lenguaje" contenteditable="true" spellcheck="false" title="Clic para editar extensión o nombre">py {Python}</span>
             </div>
 
             <!-- Codigo coloreado -->
