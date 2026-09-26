@@ -1,9 +1,0 @@
-# pedimos la cantidad de filas con condicion
-filas = 0
-while filas <= 0:
-    try:
-        filas = int(input("ingrese la cantidad de filas: "))
-        if filas <= 0:
-            print("la cantidad de filas debe ser mayor a 0")
-    except:
-        print("error, ingrese un numero entero")
