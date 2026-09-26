@@ -1,118 +1,232 @@
-"""
-Módulo de registro central de métodos de resta de matrices.
-Centraliza las estrategias disponibles para permitir una selección limpia y dinámica,
-e incluye un menú interactivo en consola para pruebas de backend.
-"""
-try:
-    from app.backend.metodo_bucles import (
-        restar_matrices_bucles,
-        pedir_matriz_consola,
-        pedir_dimension_consola,
-        imprimir_matriz_consola,
-    )
-    from app.backend.metodo_comprension import restar_matrices_comprension
-    from app.backend.metodo_numpy import restar_matrices_numpy
-except ImportError:
-    from metodo_bucles import (
-        restar_matrices_bucles,
-        pedir_matriz_consola,
-        pedir_dimension_consola,
-        imprimir_matriz_consola,
-    )
-    from metodo_comprension import restar_matrices_comprension
-    from metodo_numpy import restar_matrices_numpy
+# registro unificado de metodos de sustraccion de matrices
+# codigo en plano sin funciones def para ejecucion directa en consola
+# unifica los 3 metodos (bucles, comprension, numpy) con seleccion interactiva
 
-# Diccionario principal que asocia el identificador de cada método con su función de cálculo
-METODOS = {
-    "bucles": restar_matrices_bucles,
-    "comprension": restar_matrices_comprension,
-    "numpy": restar_matrices_numpy,
-}
+# importacion de numpy para el metodo 3 vectorizado
+import numpy as np
 
-# Etiquetas descriptivas para presentación en la interfaz de usuario
-ETIQUETAS_METODOS = {
-    "bucles": "1) Bucles Anidados (for)",
-    "comprension": "2) Comprensión de Listas",
-    "numpy": "3) Vectorización NumPy",
-}
-
-
-def obtener_funcion_metodo(clave_metodo):
-    """
-    Obtiene la función de resta asociada a la clave proporcionada.
-
-    Parámetros:
-        clave_metodo (str): Clave del método ('bucles', 'comprension', 'numpy').
-
-    Retorna:
-        callable: Función de resta correspondiente.
-
-    Lanza:
-        KeyError: Si la clave especificada no se encuentra registrada.
-    """
-    if clave_metodo not in METODOS:
-        raise KeyError(
-            f"El método '{clave_metodo}' no es válido. Opciones disponibles: {list(METODOS.keys())}"
-        )
-    return METODOS[clave_metodo]
-
-
-def menu_consola_backend():
-    """
-    Menú interactivo en consola para ejecutar y comparar los métodos de backend
-    con inputs directos del usuario (modo cachimbo / CLI) y validación permanente.
-    """
-    print("\n" + "=" * 65)
-    print("      UNSAAC - INGENIERÍA INFORMÁTICA Y DE SISTEMAS")
-    print("      LABORATORIO DE SUSTRACCIÓN DE MATRICES (CLI BACKEND)")
+# bucle principal permanente para permitir repetir el calculo
+while True:
+    # impresion del encabezado principal en consola
+    print("=" * 65)
+    print("   unsaac - ingenieria informatica y de sistemas")
+    print("   laboratorio de sustraccion de matrices: registro unificado")
     print("=" * 65)
 
+    # validacion permanente de la cantidad de filas
     while True:
         try:
-            filas = pedir_dimension_consola("filas")
-            columnas = pedir_dimension_consola("columnas")
+            # lectura de la cantidad de filas ingresada por el usuario
+            filas = int(input("ingrese la cantidad de filas: ").strip())
+            # comprobacion de que las filas sean mayores a cero
+            if filas > 0:
+                break
+            print("  [!] la cantidad de filas debe ser mayor a cero.")
+        except ValueError:
+            print("  [!] entrada invalida. ingrese un numero entero.")
 
-            matriz_a = pedir_matriz_consola("A", filas, columnas)
-            matriz_b = pedir_matriz_consola("B", filas, columnas)
+    # validacion permanente de la cantidad de columnas
+    while True:
+        try:
+            # lectura de la cantidad de columnas ingresada por el usuario
+            columnas = int(input("ingrese la cantidad de columnas: ").strip())
+            # comprobacion de que las columnas sean mayores a cero
+            if columnas > 0:
+                break
+            print("  [!] la cantidad de columnas debe ser mayor a cero.")
+        except ValueError:
+            print("  [!] entrada invalida. ingrese un numero entero.")
 
+    # ingreso de elementos para la matriz a celda por celda
+    print(f"\n=== ingrese los elementos para la matriz a ({filas}x{columnas}) ===")
+    matriz_a = []
+    # recorrido por cada fila de la matriz a
+    for i in range(filas):
+        fila = []
+        # recorrido por cada columna de la fila actual
+        for j in range(columnas):
+            # bucle permanente para asegurar que el elemento sea un numero valido
             while True:
-                print("\n=== SELECCIÓN DE MÉTODO ===")
-                print("1. Método 1: Bucles Anidados (for tradicional)")
-                print("2. Método 2: Comprensión de Listas (list comprehension)")
-                print("3. Método 3: Vectorización NumPy")
-                print("4. Ejecutar los 3 métodos comparativamente")
-                print("5. Ingresar nuevas matrices")
-                print("6. Salir")
-
-                opcion = input("Seleccione una opción (1-6): ").strip()
-
-                if opcion == "1":
-                    restar_matrices_bucles(matriz_a, matriz_b)
-                elif opcion == "2":
-                    restar_matrices_comprension(matriz_a, matriz_b)
-                elif opcion == "3":
-                    restar_matrices_numpy(matriz_a, matriz_b)
-                elif opcion == "4":
-                    print("\n" + "#" * 65)
-                    print(" EJECUTANDO COMPARATIVA DE LOS 3 MÉTODOS")
-                    print("#" * 65)
-                    r1 = restar_matrices_bucles(matriz_a, matriz_b)
-                    r2 = restar_matrices_comprension(matriz_a, matriz_b)
-                    r3 = restar_matrices_numpy(matriz_a, matriz_b)
-                    son_identicos = (r1 == r2 == r3)
-                    print(f"\n[Verificación] ¿Los 3 métodos producen el mismo resultado?: {son_identicos}")
-                elif opcion == "5":
+                try:
+                    valor_str = input(f"  ingrese elemento a[{i + 1}][{j + 1}]: ").strip()
+                    # conversion a float si tiene punto decimal o int si es entero
+                    if "." in valor_str:
+                        valor = float(valor_str)
+                    else:
+                        valor = int(valor_str)
+                    fila.append(valor)
                     break
-                elif opcion == "6":
-                    print("Saliendo del modo consola...")
-                    return
-                else:
-                    print("[!] Opción inválida. Elija entre 1 y 6.")
+                except ValueError:
+                    print("    [!] entrada invalida. ingrese un valor numerico.")
+        matriz_a.append(fila)
 
-        except KeyboardInterrupt:
-            print("\n\nOperación cancelada por el usuario.")
+    # ingreso de elementos para la matriz b celda por celda
+    print(f"\n=== ingrese los elementos para la matriz b ({filas}x{columnas}) ===")
+    matriz_b = []
+    # recorrido por cada fila de la matriz b
+    for i in range(filas):
+        fila = []
+        # recorrido por cada columna de la fila actual
+        for j in range(columnas):
+            # bucle permanente para asegurar que el elemento sea un numero valido
+            while True:
+                try:
+                    valor_str = input(f"  ingrese elemento b[{i + 1}][{j + 1}]: ").strip()
+                    # conversion a float si tiene punto decimal o int si es entero
+                    if "." in valor_str:
+                        valor = float(valor_str)
+                    else:
+                        valor = int(valor_str)
+                    fila.append(valor)
+                    break
+                except ValueError:
+                    print("    [!] entrada invalida. ingrese un valor numerico.")
+        matriz_b.append(fila)
+
+    # bucle del menu de seleccion de metodo para las matrices ingresadas
+    while True:
+        # visualizacion del menu de opciones disponibles
+        print("\n=== seleccion de metodo ===")
+        print("1. metodo 1: bucles anidados (for tradicional)")
+        print("2. metodo 2: comprension de listas (list comprehension)")
+        print("3. metodo 3: vectorizacion numpy")
+        print("4. ejecutar los 3 metodos comparativamente")
+        print("5. ingresar nuevas matrices")
+        print("6. salir")
+
+        opcion = input("seleccione una opcion (1-6): ").strip()
+
+        # calculo de ancho para impresion compacta de las matrices ingresadas
+        todos_los_valores = [str(val) for f in matriz_a + matriz_b for val in f]
+        ancho_columna = max(max(len(v) for v in todos_los_valores), 2)
+
+        # opcion 1: metodo de bucles for tradicionales
+        if opcion == "1":
+            print(f"\nmatriz a (minuendo) ({filas}x{columnas}):")
+            for f in matriz_a:
+                print("  [ " + "  ".join(f"{str(v):>{ancho_columna}}" for v in f) + " ]")
+
+            print(f"\nmatriz b (sustraendo) ({filas}x{columnas}):")
+            for f in matriz_b:
+                print("  [ " + "  ".join(f"{str(v):>{ancho_columna}}" for v in f) + " ]")
+
+            print("\n=== proceso paso a paso: c[i][j] = a[i][j] - b[i][j] ===")
+            matriz_c = []
+            for i in range(filas):
+                fila_res = []
+                for j in range(columnas):
+                    va = matriz_a[i][j]
+                    vb = matriz_b[i][j]
+                    r = va - vb
+                    fila_res.append(r)
+                    print(f"  celda [{i + 1}][{j + 1}]: a[{i + 1}][{j + 1}] ({va}) - b[{i + 1}][{j + 1}] ({vb}) = {r}")
+                matriz_c.append(fila_res)
+
+            ancho_c = max(max(len(str(v)) for f in matriz_c for v in f), 2)
+            print("\n=== matriz resultante c = a - b ===")
+            print(f"matriz c ({filas}x{columnas}):")
+            for f in matriz_c:
+                print("  [ " + "  ".join(f"{str(v):>{ancho_c}}" for v in f) + " ]")
+            print("=" * 65)
+
+        # opcion 2: metodo de comprension de listas
+        elif opcion == "2":
+            print(f"\nmatriz a (minuendo) ({filas}x{columnas}):")
+            for f in matriz_a:
+                print("  [ " + "  ".join(f"{str(v):>{ancho_columna}}" for v in f) + " ]")
+
+            print(f"\nmatriz b (sustraendo) ({filas}x{columnas}):")
+            for f in matriz_b:
+                print("  [ " + "  ".join(f"{str(v):>{ancho_columna}}" for v in f) + " ]")
+
+            print("\n=== evaluacion fila por fila ===")
+            ancho_indice = len(str(filas))
+            for i in range(filas):
+                prefijo = f"  fila [{i + 1:>{ancho_indice}}]: "
+                long_p = len(prefijo)
+                esp_ig = " " * (long_p - 2) + "= "
+                esp_fl = " " * (long_p - 3) + "=> "
+
+                fa_str = [str(matriz_a[i][j]) for j in range(columnas)]
+                fb_str = [str(matriz_b[i][j]) for j in range(columnas)]
+                fr_str = [f"{matriz_a[i][j]} - {matriz_b[i][j]}" for j in range(columnas)]
+                fv_str = [str(matriz_a[i][j] - matriz_b[i][j]) for j in range(columnas)]
+
+                print(f"{prefijo}[{', '.join(fa_str)}] - [{', '.join(fb_str)}]")
+                print(f"{esp_ig}[{', '.join(fr_str)}]")
+                print(f"{esp_fl}[{', '.join(fv_str)}]")
+
+            matriz_c = [
+                [matriz_a[i][j] - matriz_b[i][j] for j in range(columnas)]
+                for i in range(filas)
+            ]
+            ancho_c = max(max(len(str(v)) for f in matriz_c for v in f), 2)
+            print("\n=== matriz resultante c = a - b ===")
+            print(f"matriz c ({filas}x{columnas}):")
+            for f in matriz_c:
+                print("  [ " + "  ".join(f"{str(v):>{ancho_c}}" for v in f) + " ]")
+            print("=" * 65)
+
+        # opcion 3: metodo de vectorizacion numpy
+        elif opcion == "3":
+            arreglo_a = np.array(matriz_a, dtype=float)
+            arreglo_b = np.array(matriz_b, dtype=float)
+
+            print(f"\ndimensiones validadas: {arreglo_a.shape[0]} filas x {arreglo_a.shape[1]} columnas\n")
+            print(f"tipo de datos interno: {arreglo_a.dtype}")
+            print("\n=== arreglo a (minuendo en ndarray) ===")
+            print(arreglo_a)
+            print("\n=== arreglo b (sustraendo en ndarray) ===")
+            print(arreglo_b)
+            print("\n=== operacion vectorizada (c compilado / blas) ===")
+            print("  ejecutando expresion: arreglo_resultado = arreglo_a - arreglo_b")
+            print("  (sin bucles for en python; operacion procesada en memoria contigua en c)")
+            arreglo_resultado = arreglo_a - arreglo_b
+            print("\n=== arreglo resultante c = a - b (ndarray) ===")
+            print(arreglo_resultado)
+            print("=" * 65)
+
+        # opcion 4: comparativa de los 3 metodos
+        elif opcion == "4":
+            print("\n" + "#" * 65)
+            print(" ejecutando comparativa de los 3 metodos")
+            print("#" * 65)
+
+            # calculo por bucles
+            res_bucles = []
+            for i in range(filas):
+                fila_res = []
+                for j in range(columnas):
+                    fila_res.append(matriz_a[i][j] - matriz_b[i][j])
+                res_bucles.append(fila_res)
+
+            # calculo por comprension
+            res_comprension = [
+                [matriz_a[i][j] - matriz_b[i][j] for j in range(columnas)]
+                for i in range(filas)
+            ]
+
+            # calculo por numpy
+            arr_a = np.array(matriz_a, dtype=float)
+            arr_b = np.array(matriz_b, dtype=float)
+            res_numpy = (arr_a - arr_b).tolist()
+
+            # verificacion de igualdad de resultados
+            son_iguales = (res_bucles == res_comprension)
+            print(f"\nresultado bucles:      {res_bucles}")
+            print(f"resultado comprension: {res_comprension}")
+            print(f"resultado numpy:       {res_numpy}")
+            print(f"\n[verificacion] ¿los metodos producen el mismo resultado?: {son_iguales}")
+            print("=" * 65)
+
+        # opcion 5: volver a ingresar matrices
+        elif opcion == "5":
             break
 
+        # opcion 6: salir completamente del programa
+        elif opcion == "6":
+            print("saliendo del modo consola...")
+            exit()
 
-if __name__ == "__main__":
-    menu_consola_backend()
+        else:
+            print("[!] opcion invalida. elija entre 1 y 6.")

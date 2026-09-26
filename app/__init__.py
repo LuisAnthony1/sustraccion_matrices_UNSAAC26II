@@ -1,3 +1,1 @@
-"""
-Paquete principal de la aplicación de sustracción de matrices.
-"""
+# paquete principal de la aplicacion de sustraccion de matrices

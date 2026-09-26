@@ -1,6 +1,4 @@
-"""
-Subpaquete frontend: contiene la interfaz gráfica de usuario construida en Tkinter.
-"""
+# subpaquete frontend: contiene la interfaz grafica de usuario construida en tkinter
 from app.frontend.ventana_principal import AplicacionRestaMatrices
 from app.frontend.widgets_matriz import (
     dibujar_entradas_matriz,
