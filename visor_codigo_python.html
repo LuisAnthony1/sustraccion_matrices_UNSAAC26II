@@ -23,11 +23,12 @@
         body.app-tema-oscuro {
             --bg-app: #0e1014;
             --color-app-texto: #e2e8f0;
-            --toolbar-bg: rgba(22, 26, 34, 0.85);
-            --toolbar-borde: rgba(255, 255, 255, 0.1);
-            --toolbar-btn-color: #cbd5e1;
-            --toolbar-btn-hover: rgba(255, 255, 255, 0.12);
+            --toolbar-bg: rgba(22, 26, 34, 0.9);
+            --toolbar-borde: rgba(255, 255, 255, 0.12);
+            --toolbar-btn-color: #94a3b8;
+            --toolbar-btn-hover: rgba(255, 255, 255, 0.1);
             --toolbar-btn-activo: #38bdf8;
+            --toolbar-pildora-bg: rgba(255, 255, 255, 0.06);
             --tooltip-bg: #1e293b;
             --tooltip-color: #f8fafc;
         }
@@ -35,11 +36,12 @@
         body.app-tema-claro {
             --bg-app: #f1f4f9;
             --color-app-texto: #1e293b;
-            --toolbar-bg: rgba(255, 255, 255, 0.9);
-            --toolbar-borde: rgba(0, 0, 0, 0.12);
-            --toolbar-btn-color: #475569;
-            --toolbar-btn-hover: rgba(0, 0, 0, 0.08);
+            --toolbar-bg: rgba(255, 255, 255, 0.95);
+            --toolbar-borde: rgba(0, 0, 0, 0.1);
+            --toolbar-btn-color: #64748b;
+            --toolbar-btn-hover: rgba(0, 0, 0, 0.06);
             --toolbar-btn-activo: #0284c7;
+            --toolbar-pildora-bg: rgba(0, 0, 0, 0.05);
             --tooltip-bg: #0f172a;
             --tooltip-color: #ffffff;
         }
@@ -48,7 +50,8 @@
         .codigo-tema-oscuro {
             --bg-codigo: #16181d;
             --borde-codigo: rgba(255, 255, 255, 0.12);
-            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.65), 0 8px 24px rgba(0, 0, 0, 0.4);
+            --halo-exterior: rgba(255, 255, 255, 0.06);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.55), 0 6px 20px rgba(0, 0, 0, 0.35);
             --color-texto: #e6edf3;
             --color-comentario: #7d8590;
             --color-keyword: #ff7b72;
@@ -57,15 +60,16 @@
             --color-funcion: #d2a8ff;
             --color-operador: #ff7b72;
             --color-puntuacion: #c9d1d9;
-            --cabecera-mac-borde: rgba(255, 255, 255, 0.06);
-            --badge-bg: rgba(255, 255, 255, 0.08);
+            --cabecera-mac-borde: rgba(255, 255, 255, 0.07);
+            --badge-bg: rgba(255, 255, 255, 0.07);
             --badge-color: #94a3b8;
         }
 
         .codigo-tema-claro {
             --bg-codigo: #ffffff;
-            --borde-codigo: rgba(0, 0, 0, 0.1);
-            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.08);
+            --borde-codigo: rgba(0, 0, 0, 0.12);
+            --halo-exterior: rgba(0, 0, 0, 0.04);
+            --sombra-codigo: 0 25px 60px rgba(0, 0, 0, 0.14), 0 6px 18px rgba(0, 0, 0, 0.06);
             --color-texto: #1f2328;
             --color-comentario: #6e7781;
             --color-keyword: #cf222e;
@@ -74,7 +78,7 @@
             --color-funcion: #8250df;
             --color-operador: #cf222e;
             --color-puntuacion: #24292f;
-            --cabecera-mac-borde: rgba(0, 0, 0, 0.06);
+            --cabecera-mac-borde: rgba(0, 0, 0, 0.07);
             --badge-bg: rgba(0, 0, 0, 0.05);
             --badge-color: #64748b;
         }
@@ -82,7 +86,7 @@
         /* === CONFIGURACION GENERAL === */
         * {
             box-sizing: border-box;
-            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
 
         body {
@@ -101,21 +105,23 @@
         /* === CONTENEDOR DE CAPTURA (FONDO 100% TRANSPARENTE) === */
         #area-captura {
             background-color: transparent !important;
-            padding: 35px;
+            background: transparent !important;
+            padding: 30px;
             display: inline-block;
             max-width: 100%;
         }
 
-        /* === VENTANA ESTILO MACOS === */
+        /* === VENTANA ESTILO MACOS CON DOBLE CONTORNO === */
         .ventana-codigo {
             background-color: var(--bg-codigo);
             border: 1px solid var(--borde-codigo);
+            outline: 1px solid var(--halo-exterior);
+            outline-offset: 3px;
             border-radius: 14px;
             box-shadow: var(--sombra-codigo);
             min-width: 580px;
             max-width: 860px;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
         /* Cabecera macOS */
@@ -123,7 +129,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 18px 10px 18px;
+            padding: 13px 18px 10px 18px;
             border-bottom: 1px solid var(--cabecera-mac-borde);
         }
 
@@ -226,17 +232,58 @@
 
         /* === BARRA DE HERRAMIENTAS MINIMALISTA ABAJO === */
         .barra-minimalista {
-            margin-top: 15px;
+            margin-top: 18px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: var(--toolbar-bg);
             border: 1px solid var(--toolbar-borde);
-            padding: 8px 14px;
+            padding: 8px 16px;
             border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Grupos de selectores (Formato y Calidad) */
+        .selector-grupo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .grupo-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--toolbar-btn-color);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .selector-pildora {
+            display: flex;
+            background: var(--toolbar-pildora-bg);
+            border-radius: 20px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .btn-opcion {
+            background: transparent;
+            border: none;
+            color: var(--toolbar-btn-color);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 9px;
+            border-radius: 16px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn-opcion.activo {
+            background-color: var(--toolbar-btn-activo);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
         }
 
         /* Botones de solo iconos */
@@ -244,8 +291,8 @@
             background: transparent;
             border: none;
             color: var(--toolbar-btn-color);
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -266,8 +313,8 @@
         }
 
         .btn-icono svg {
-            width: 19px;
-            height: 19px;
+            width: 18px;
+            height: 18px;
             fill: none;
             stroke: currentColor;
             stroke-width: 2;
@@ -280,39 +327,14 @@
             width: 1px;
             height: 20px;
             background-color: var(--toolbar-borde);
-            margin: 0 4px;
-        }
-
-        /* Selector de formato minimalista */
-        .selector-formato {
-            display: flex;
-            background: var(--toolbar-btn-hover);
-            border-radius: 20px;
-            padding: 2px;
-            gap: 2px;
-        }
-
-        .btn-formato {
-            background: transparent;
-            border: none;
-            color: var(--toolbar-btn-color);
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 9px;
-            border-radius: 16px;
-            cursor: pointer;
-        }
-
-        .btn-formato.activo {
-            background-color: var(--toolbar-btn-activo);
-            color: #ffffff;
+            margin: 0 2px;
         }
 
         /* Tooltip minimalista al pasar el cursor */
         .btn-icono::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 48px;
+            bottom: 46px;
             left: 50%;
             transform: translateX(-50%) translateY(4px);
             background: var(--tooltip-bg);
@@ -334,32 +356,6 @@
             opacity: 1;
             visibility: visible;
             transform: translateX(-50%) translateY(0);
-        }
-
-        /* Indicador de estado de sincronizacion */
-        .estado-sincronizacion {
-            margin-top: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--toolbar-btn-color);
-            opacity: 0.85;
-        }
-
-        .punto-estado {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #22c55e;
-            box-shadow: 0 0 8px #22c55e;
-            animation: pulso 2s infinite;
-        }
-
-        @keyframes pulso {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
         }
 
         /* Notificacion flotante de copiado */
@@ -390,7 +386,8 @@
     </style>
 </head>
 
-<body class="app-tema-oscuro">
+<!-- Por defecto: Tema de aplicacion claro y codigo oscuro -->
+<body class="app-tema-claro">
 
     <!-- Area que se exporta como imagen con transparencia real -->
     <div id="area-captura">
@@ -423,10 +420,26 @@ while filas <= 0:
     <!-- Barra de controles minimalista con iconos ubicada debajo del cuadro -->
     <div class="barra-minimalista">
         <!-- Selector de formato -->
-        <div class="selector-formato">
-            <button class="btn-formato activo" id="fmt-png" onclick="establecerFormato('png')">PNG</button>
-            <button class="btn-formato" id="fmt-webp" onclick="establecerFormato('webp')">WEBP</button>
-            <button class="btn-formato" id="fmt-jpeg" onclick="establecerFormato('jpeg')">JPG</button>
+        <div class="selector-grupo">
+            <span class="grupo-label">Formato</span>
+            <div class="selector-pildora">
+                <button class="btn-opcion activo" id="fmt-png" onclick="establecerFormato('png')">PNG</button>
+                <button class="btn-opcion" id="fmt-webp" onclick="establecerFormato('webp')">WEBP</button>
+                <button class="btn-opcion" id="fmt-jpeg" onclick="establecerFormato('jpeg')">JPG</button>
+                <button class="btn-opcion" id="fmt-svg" onclick="establecerFormato('svg')">SVG</button>
+            </div>
+        </div>
+
+        <div class="separador"></div>
+
+        <!-- Selector de calidad -->
+        <div class="selector-grupo">
+            <span class="grupo-label">Calidad</span>
+            <div class="selector-pildora">
+                <button class="btn-opcion" id="cal-normal" onclick="establecerCalidad('normal')">Normal</button>
+                <button class="btn-opcion activo" id="cal-hd" onclick="establecerCalidad('hd')">HD</button>
+                <button class="btn-opcion" id="cal-4k" onclick="establecerCalidad('4k')">4K</button>
+            </div>
         </div>
 
         <div class="separador"></div>
@@ -440,8 +453,8 @@ while filas <= 0:
             </svg>
         </button>
 
-        <!-- Copiar Imagen al Portapapeles -->
-        <button class="btn-icono" data-tooltip="Copiar Imagen al Portapapeles" onclick="copiarImagen()">
+        <!-- Copiar Imagen al Portapapeles (en tamaño regular) -->
+        <button class="btn-icono" data-tooltip="Copiar Imagen (Tamaño Regular)" onclick="copiarImagen()">
             <svg viewBox="0 0 24 24">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -466,12 +479,6 @@ while filas <= 0:
         </button>
     </div>
 
-    <!-- Indicador de sincronizacion en vivo -->
-    <div class="estado-sincronizacion">
-        <span class="punto-estado" id="indicador-punto"></span>
-        <span id="texto-estado">sincronizado con codigo_para_visor.txt</span>
-    </div>
-
     <!-- Mensaje flotante de exito al copiar -->
     <div id="toast-copiado">
         <svg style="width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5;" viewBox="0 0 24 24">
@@ -481,18 +488,26 @@ while filas <= 0:
     </div>
 
     <script>
-        // Formato actual de exportacion
+        // Configuraciones de exportacion
         let formatoActual = 'png';
+        let calidadActual = 'hd';
         let ultimoContenidoCodigo = "";
 
-        // Formateo inicial de sintaxis
+        // Resaltado de sintaxis inicial
         Prism.highlightElement(document.getElementById('bloque-codigo'));
 
-        // Funcion para cambiar el formato de exportacion (PNG, WEBP, JPEG)
+        // Establecer formato (PNG, WEBP, JPEG, SVG)
         function establecerFormato(fmt) {
             formatoActual = fmt;
-            document.querySelectorAll('.btn-formato').forEach(btn => btn.classList.remove('activo'));
+            document.querySelectorAll('.selector-grupo:first-child .btn-opcion').forEach(btn => btn.classList.remove('activo'));
             document.getElementById(`fmt-${fmt}`).classList.add('activo');
+        }
+
+        // Establecer calidad (Normal = scale 2, HD = scale 3, 4K = scale 5)
+        function establecerCalidad(cal) {
+            calidadActual = cal;
+            document.querySelectorAll('.selector-grupo:nth-child(3) .btn-opcion').forEach(btn => btn.classList.remove('activo'));
+            document.getElementById(`cal-${cal}`).classList.add('activo');
         }
 
         // Alternar tema del codigo de manera independiente
@@ -511,9 +526,9 @@ while filas <= 0:
         function alternarTemaApp() {
             const body = document.body;
             const btnApp = document.getElementById('btn-tema-app');
-            if (body.classList.contains('app-tema-oscuro')) {
-                body.classList.remove('app-tema-oscuro');
-                body.classList.add('app-tema-claro');
+            if (body.classList.contains('app-tema-claro')) {
+                body.classList.remove('app-tema-claro');
+                body.classList.add('app-tema-oscuro');
                 btnApp.innerHTML = `
                     <svg viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -528,8 +543,8 @@ while filas <= 0:
                     </svg>
                 `;
             } else {
-                body.classList.remove('app-tema-claro');
-                body.classList.add('app-tema-oscuro');
+                body.classList.remove('app-tema-oscuro');
+                body.classList.add('app-tema-claro');
                 btnApp.innerHTML = `
                     <svg viewBox="0 0 24 24">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -555,13 +570,9 @@ while filas <= 0:
                         ultimoContenidoCodigo = texto;
                         actualizarCodigo(texto);
                     }
-                    document.getElementById('indicador-punto').style.backgroundColor = '#22c55e';
-                    document.getElementById('texto-estado').innerText = 'sincronizado con codigo_para_visor.txt';
                 }
             } catch (err) {
-                // Si se abre directamente con doble clic (file://)
-                document.getElementById('indicador-punto').style.backgroundColor = '#38bdf8';
-                document.getElementById('texto-estado').innerText = 'modo archivo local (edición y pegado directo activos)';
+                // Silencioso sin cartel de error
             }
         }
 
@@ -569,7 +580,7 @@ while filas <= 0:
         setInterval(sincronizarArchivoTxt, 1000);
         window.onload = sincronizarArchivoTxt;
 
-        // Soporte adicional: arrastrar y soltar archivo .txt directamente en la ventana
+        // Soporte de arrastrar y soltar archivo .txt directamente
         window.addEventListener('dragover', (e) => e.preventDefault());
         window.addEventListener('drop', (e) => {
             e.preventDefault();
@@ -583,7 +594,7 @@ while filas <= 0:
             }
         });
 
-        // Soporte adicional: pegar codigo con Ctrl+V en cualquier parte
+        // Soporte de pegar con Ctrl+V
         window.addEventListener('paste', (e) => {
             const textoPegado = (e.clipboardData || window.clipboardData).getData('text');
             if (textoPegado && textoPegado.trim().length > 0) {
@@ -591,35 +602,115 @@ while filas <= 0:
             }
         });
 
-        // Generar canvas con fondo transparente
-        async function generarCanvasCaptura() {
+        // Generar canvas con fondo 100% transparente garantizado
+        async function generarCanvasCaptura(esParaCopiar = false) {
             const area = document.getElementById('area-captura');
             const esJpeg = (formatoActual === 'jpeg');
 
+            // Determinar resolucion
+            let factorEscala = 3; // Por defecto HD
+            if (esParaCopiar) {
+                factorEscala = 2; // Tamano regular normal para pegar en chats/docs sin desbordar
+            } else {
+                if (calidadActual === 'normal') factorEscala = 2;
+                else if (calidadActual === 'hd') factorEscala = 3;
+                else if (calidadActual === '4k') factorEscala = 5; // Ultra 4K maximo detalle
+            }
+
             return await html2canvas(area, {
-                backgroundColor: esJpeg ? '#0e1014' : null, // Transparente para PNG y WEBP
-                scale: 3, // Calidad ultra nitida
+                backgroundColor: esJpeg ? '#16181d' : null, // Solo JPG tiene fondo solido, PNG y WEBP transparente
+                scale: factorEscala,
                 logging: false,
-                useCORS: true
+                useCORS: true,
+                allowTaint: true,
+                onclone: (docClonado) => {
+                    // Forzar transparencia absoluta en todos los ancestros clonados
+                    docClonado.documentElement.style.background = 'transparent';
+                    docClonado.body.style.background = 'transparent';
+                    docClonado.body.style.backgroundColor = 'transparent';
+                    const areaClonada = docClonado.getElementById('area-captura');
+                    if (areaClonada) {
+                        areaClonada.style.background = 'transparent';
+                        areaClonada.style.backgroundColor = 'transparent';
+                    }
+                }
             });
         }
 
-        // Descargar la imagen
+        // Descarga de archivo (soporta PNG, WEBP, JPG y SVG vectorizado)
         async function descargarImagen() {
-            const canvas = await generarCanvasCaptura();
+            if (formatoActual === 'svg') {
+                descargarSVGVectorial();
+                return;
+            }
+
+            const canvas = await generarCanvasCaptura(false);
             const mimeType = formatoActual === 'jpeg' ? 'image/jpeg' : (formatoActual === 'webp' ? 'image/webp' : 'image/png');
             const extension = formatoActual === 'jpeg' ? 'jpg' : formatoActual;
 
             const enlace = document.createElement('a');
-            enlace.download = `codigo_fragmento.${extension}`;
-            enlace.href = canvas.toDataURL(mimeType, 0.95);
+            enlace.download = `codigo_${calidadActual}.${extension}`;
+            enlace.href = canvas.toDataURL(mimeType, 0.96);
             enlace.click();
         }
 
-        // Copiar la imagen al portapapeles
+        // Exportacion directa a SVG vectorizado escalable infinito
+        function descargarSVGVectorial() {
+            const ventana = document.getElementById('ventana-codigo');
+            const ancho = ventana.offsetWidth;
+            const alto = ventana.offsetHeight;
+            const esOscuro = ventana.classList.contains('codigo-tema-oscuro');
+
+            const contenidoClon = ventana.cloneNode(true);
+
+            const svgString = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${ancho + 40}" height="${alto + 40}">
+    <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="padding: 20px; background: transparent; display: flex; justify-content: center;">
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+                * { box-sizing: border-box; font-family: 'Fira Code', monospace; }
+                .ventana-codigo {
+                    background-color: ${esOscuro ? '#16181d' : '#ffffff'};
+                    border: 1px solid ${esOscuro ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'};
+                    outline: 1px solid ${esOscuro ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'};
+                    outline-offset: 3px;
+                    border-radius: 14px;
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+                    width: ${ancho}px;
+                    overflow: hidden;
+                }
+                .cabecera-mac { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px 10px 18px; border-bottom: 1px solid ${esOscuro ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'}; }
+                .botones-mac { display: flex; align-items: center; gap: 8px; }
+                .punto { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+                .punto.rojo { background-color: #ff5f56; }
+                .punto.amarillo { background-color: #ffbd2e; }
+                .punto.verde { background-color: #27c93f; }
+                .etiqueta-lenguaje { font-size: 11px; color: ${esOscuro ? '#94a3b8' : '#64748b'}; background: ${esOscuro ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)'}; padding: 2px 7px; border-radius: 5px; }
+                .contenido-codigo { padding: 18px 24px 24px 24px; color: ${esOscuro ? '#e6edf3' : '#1f2328'}; font-size: 15px; line-height: 1.65; white-space: pre; }
+                .token.comment { color: ${esOscuro ? '#7d8590' : '#6e7781'}; font-style: italic; }
+                .token.keyword { color: ${esOscuro ? '#ff7b72' : '#cf222e'}; font-weight: 600; }
+                .token.string { color: ${esOscuro ? '#a5d6ff' : '#0a3069'}; }
+                .token.number { color: ${esOscuro ? '#79c0ff' : '#0550ae'}; }
+                .token.operator { color: ${esOscuro ? '#ff7b72' : '#cf222e'}; }
+                .token.punctuation { color: ${esOscuro ? '#c9d1d9' : '#24292f'}; }
+            </style>
+            ${contenidoClon.outerHTML}
+        </div>
+    </foreignObject>
+</svg>`;
+
+            const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+            const enlace = document.createElement('a');
+            enlace.download = 'codigo_vectorial.svg';
+            enlace.href = URL.createObjectURL(blob);
+            enlace.click();
+        }
+
+        // Copiar imagen en tamano regular normal al portapapeles
         async function copiarImagen() {
             try {
-                const canvas = await generarCanvasCaptura();
+                const canvas = await generarCanvasCaptura(true); // scale 2 (tamano regular normal)
                 canvas.toBlob(async (blob) => {
                     if (!blob) return;
                     const item = new ClipboardItem({ 'image/png': blob });
@@ -627,7 +718,6 @@ while filas <= 0:
                     mostrarToast();
                 }, 'image/png');
             } catch (err) {
-                // Si el navegador bloquea escritura directa de blob
                 console.error("Error al copiar imagen:", err);
                 alert("Para copiar directamente en este navegador, usa el botón de Descargar.");
             }
