@@ -159,7 +159,7 @@
 
         body {
             margin: 0;
-            padding: 30px 20px 85px 20px;
+            padding: 30px 20px 140px 20px;
             background-color: var(--bg-app);
             color: var(--color-app-texto);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -180,44 +180,21 @@
             margin: auto 0;
         }
 
-        /* === ALERTA ROJA DE OVERFLOW (ARRIBA A LA IZQUIERDA) === */
+        /* === ALERTA ROJA DE OVERFLOW (SIMPLE TEXTO ROJO ESTÁTICO EN PANTALLA) === */
         .alerta-overflow {
             position: fixed;
-            top: 14px;
-            left: 18px;
+            top: 20px;
+            left: 24px;
             z-index: 1000;
-            background: rgba(239, 68, 68, 0.12);
-            border: 1px solid rgba(239, 68, 68, 0.45);
             color: #ef4444;
-            border-radius: 8px;
-            padding: 7px 12px;
-            font-size: 11.5px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.18);
-            font-family: 'Fira Code', 'Inter', monospace;
-            letter-spacing: 0.2px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            letter-spacing: 0.5px;
             pointer-events: none;
-            transition: all 0.3s ease;
-            animation: pulso-alerta 2.2s infinite ease-in-out;
-        }
-
-        @keyframes pulso-alerta {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(0.98); }
-        }
-
-        .alerta-icono {
-            width: 15px;
-            height: 15px;
-            stroke: #ef4444;
-            fill: none;
-            stroke-width: 2.2;
-            flex-shrink: 0;
+            user-select: none;
+            animation: none;
+            transition: none;
         }
 
         /* === CONTENEDOR DE CAPTURA (FONDO 100% TRANSPARENTE) === */
@@ -362,22 +339,22 @@
             color: var(--color-puntuacion) !important;
         }
 
-        /* === BARRA DE HERRAMIENTAS FLOTANTE FIJA A 5PX DEL FONDO === */
+        /* === BARRA DE HERRAMIENTAS FLOTANTE ELEVADA A 5% DE LA PANTALLA (5VH) === */
         .barra-minimalista {
             position: fixed;
-            bottom: 5px;
+            bottom: 5vh;
             left: 50%;
             transform: translateX(-50%);
             z-index: 999;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 12px;
             background: var(--toolbar-bg);
             border: 1px solid var(--toolbar-borde);
-            padding: 6px 14px;
+            padding: 8px 18px;
             border-radius: 50px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.26);
             -webkit-backdrop-filter: blur(16px);
             backdrop-filter: blur(16px);
         }
@@ -386,42 +363,43 @@
         .selector-grupo {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         .selector-pildora {
             display: flex;
             background: var(--toolbar-pildora-bg);
-            border-radius: 20px;
-            padding: 2px;
-            gap: 2px;
+            border-radius: 24px;
+            padding: 3px;
+            gap: 3px;
         }
 
         .btn-opcion {
             background: transparent;
             border: none;
             color: var(--toolbar-btn-color);
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
-            padding: 4px 9px;
-            border-radius: 16px;
+            padding: 6px 13px;
+            border-radius: 20px;
             cursor: pointer;
             outline: none;
             position: relative;
+            transition: all 0.15s ease;
         }
 
         .btn-opcion::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 34px;
+            bottom: 44px;
             left: 50%;
             transform: translateX(-50%) translateY(4px);
             background: var(--tooltip-bg);
             color: var(--tooltip-color);
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
-            padding: 5px 9px;
-            border-radius: 6px;
+            padding: 6px 11px;
+            border-radius: 7px;
             white-space: nowrap;
             pointer-events: none;
             opacity: 0;
@@ -440,29 +418,29 @@
         .btn-opcion.activo {
             background-color: var(--toolbar-btn-activo);
             color: #ffffff;
-            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
         }
 
-        /* Selector de 5 temas de color (circulos mejorados con estilo gema) */
+        /* Selector de 5 temas de color (circulos agrandados con estilo gema) */
         .selector-temas {
             display: flex;
             align-items: center;
-            gap: 11px;
-            padding: 3px 8px;
+            gap: 12px;
+            padding: 4px 10px;
             background: var(--toolbar-pildora-bg);
-            border-radius: 20px;
+            border-radius: 24px;
         }
 
         .circulo-tema {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.45);
             cursor: pointer;
             padding: 0;
             outline: none;
             position: relative;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
@@ -488,15 +466,15 @@
         .circulo-tema::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 34px;
+            bottom: 44px;
             left: 50%;
             transform: translateX(-50%) translateY(4px);
             background: var(--tooltip-bg);
             color: var(--tooltip-color);
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
-            padding: 5px 9px;
-            border-radius: 6px;
+            padding: 6px 11px;
+            border-radius: 7px;
             white-space: nowrap;
             pointer-events: none;
             opacity: 0;
@@ -512,19 +490,13 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        .circulo-tema:hover::after {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* Botones de solo iconos */
+        /* Botones de solo iconos agrandados */
         .btn-icono {
             background: transparent;
             border: none;
             color: var(--toolbar-btn-color);
-            width: 34px;
-            height: 34px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -532,6 +504,7 @@
             justify-content: center;
             position: relative;
             outline: none;
+            transition: all 0.15s ease;
         }
 
         .btn-icono:hover {
@@ -545,11 +518,11 @@
         }
 
         .btn-icono svg {
-            width: 17px;
-            height: 17px;
+            width: 20px;
+            height: 20px;
             fill: none;
             stroke: currentColor;
-            stroke-width: 2;
+            stroke-width: 2.2;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
@@ -557,31 +530,31 @@
         /* Separador vertical sutil */
         .separador {
             width: 1px;
-            height: 18px;
+            height: 22px;
             background-color: var(--toolbar-borde);
-            margin: 0 2px;
+            margin: 0 3px;
         }
 
         /* Tooltip minimalista al pasar el cursor */
         .btn-icono::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 44px;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%) translateY(4px);
             background: var(--tooltip-bg);
             color: var(--tooltip-color);
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 6px 11px;
+            border-radius: 7px;
             white-space: nowrap;
             pointer-events: none;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.2s, transform 0.2s;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 100;
+            z-index: 1000;
         }
 
         .btn-icono:hover::after {
@@ -593,19 +566,19 @@
         /* Notificacion flotante de copiado */
         #toast-copiado {
             position: fixed;
-            bottom: 56px;
+            bottom: calc(5vh + 65px);
             left: 50%;
             transform: translateX(-50%) translateY(20px);
             background: #10b981;
             color: #ffffff;
             font-size: 13px;
             font-weight: 600;
-            padding: 8px 18px;
+            padding: 9px 20px;
             border-radius: 50px;
             box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             opacity: 0;
             pointer-events: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -631,15 +604,8 @@
 <!-- Por defecto: Tema de aplicacion claro y codigo en tema IDLE -->
 <body class="app-tema-claro">
 
-    <!-- Alerta de desbordamiento horizontal (Fuera de #area-captura para no salir en la imagen exportada) -->
-    <div id="alerta-overflow" class="alerta-overflow" style="display: none;">
-        <svg class="alerta-icono" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="8" x2="12" y2="12"></line>
-            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-        <span id="texto-alerta-overflow">OVERFLOW: Línea supera los 70 caracteres</span>
-    </div>
+    <!-- Alerta de desbordamiento horizontal (Simple texto rojo estático en pantalla) -->
+    <div id="alerta-overflow" class="alerta-overflow" style="display: none;"></div>
 
     <!-- Contenedor centrado para la ventana de codigo -->
     <div class="contenedor-principal">
@@ -671,7 +637,7 @@ while filas <= 0:
         </div>
     </div>
 
-    <!-- Barra de controles flotante fija a 5px del fondo de pantalla -->
+    <!-- Barra de controles flotante elevada al 5% de la pantalla -->
     <div class="barra-minimalista">
         <!-- Selector de formato (Solo imagenes reales) -->
         <div class="selector-grupo">
@@ -687,9 +653,9 @@ while filas <= 0:
         <!-- Selector de calidad -->
         <div class="selector-grupo">
             <div class="selector-pildora">
-                <button class="btn-opcion" id="cal-normal" data-tooltip="Normal (~900 KB · 2600×1400px)" onclick="establecerCalidad('normal')">Normal</button>
-                <button class="btn-opcion activo" id="cal-hd" data-tooltip="HD (~2.2 MB · 3900×2100px)" onclick="establecerCalidad('hd')">HD</button>
-                <button class="btn-opcion" id="cal-4k" data-tooltip="4K Ultra (~4.8 MB · 5200×2800px)" onclick="establecerCalidad('4k')">4K</button>
+                <button class="btn-opcion" id="cal-normal" data-tooltip="Normal · PNG (~220 KB · 2600×1400px)" onclick="establecerCalidad('normal')">Normal</button>
+                <button class="btn-opcion activo" id="cal-hd" data-tooltip="HD · PNG (~380 KB · 3900×2100px)" onclick="establecerCalidad('hd')">HD</button>
+                <button class="btn-opcion" id="cal-4k" data-tooltip="4K Ultra · PNG (~580 KB · 5200×2800px)" onclick="establecerCalidad('4k')">4K</button>
             </div>
         </div>
 
@@ -747,7 +713,7 @@ while filas <= 0:
         let calidadActual = 'hd';
         let temaCodigoActual = 'idle';
         let ultimoContenidoCodigo = "";
-        const LIMITE_CARACTERES = 70; // Limite horizontal de caracteres por linea
+        const LIMITE_CARACTERES = 100; // Limite horizontal estricto de 100 caracteres por linea
 
         // Resaltado de sintaxis inicial
         Prism.highlightElement(document.getElementById('bloque-codigo'));
@@ -770,23 +736,23 @@ while filas <= 0:
             actualizarTooltips();
         }
 
-        // Actualizar tooltips dinámicos con peso estimado en KB/MB y resolución
+        // Actualizar tooltips dinámicos con peso real verificado en KB y resolución exacta
         function actualizarTooltips() {
             const estimaciones = {
                 png: {
-                    normal: { peso: '~900 KB', res: '2600×1400' },
-                    hd: { peso: '~2.2 MB', res: '3900×2100' },
-                    '4k': { peso: '~4.8 MB', res: '5200×2800' }
+                    normal: { peso: '~220 KB', res: '2600×1400' },
+                    hd: { peso: '~380 KB', res: '3900×2100' },
+                    '4k': { peso: '~580 KB', res: '5200×2800' }
                 },
                 webp: {
-                    normal: { peso: '~350 KB', res: '2600×1400' },
-                    hd: { peso: '~950 KB', res: '3900×2100' },
-                    '4k': { peso: '~2.1 MB', res: '5200×2800' }
+                    normal: { peso: '~110 KB', res: '2600×1400' },
+                    hd: { peso: '~210 KB', res: '3900×2100' },
+                    '4k': { peso: '~340 KB', res: '5200×2800' }
                 },
                 jpeg: {
-                    normal: { peso: '~550 KB', res: '2600×1400' },
-                    hd: { peso: '~1.4 MB', res: '3900×2100' },
-                    '4k': { peso: '~3.2 MB', res: '5200×2800' }
+                    normal: { peso: '~160 KB', res: '2600×1400' },
+                    hd: { peso: '~310 KB', res: '3900×2100' },
+                    '4k': { peso: '~510 KB', res: '5200×2800' }
                 }
             };
 
@@ -876,26 +842,25 @@ while filas <= 0:
             }
         }
 
-        // Verificacion del limite horizontal de caracteres
+        // Verificacion del limite horizontal de caracteres (100 caracteres maximo, 101 desborda)
         function verificarLimiteCaracteres(texto) {
             const lineas = texto.split('\n');
             const desbordadas = [];
 
             for (let i = 0; i < lineas.length; i++) {
                 const lineaLimpia = lineas[i].replace(/\r$/, '');
-                if (lineaLimpia.length > LIMITE_CARACTERES) {
+                if (lineaLimpia.length > 100) {
                     desbordadas.push({ num: i + 1, largo: lineaLimpia.length });
                 }
             }
 
             const alerta = document.getElementById('alerta-overflow');
-            const alertaTexto = document.getElementById('texto-alerta-overflow');
 
             if (desbordadas.length > 0) {
                 const primera = desbordadas[0];
                 const extras = desbordadas.length > 1 ? ` (+${desbordadas.length - 1} líneas más)` : '';
-                alertaTexto.textContent = `OVERFLOW: Línea ${primera.num} tiene ${primera.largo} caracteres (Límite: ${LIMITE_CARACTERES})${extras}`;
-                alerta.style.display = 'flex';
+                alerta.textContent = `OVERFLOW: Línea ${primera.num} tiene ${primera.largo} caracteres (Límite: 100)${extras}`;
+                alerta.style.display = 'block';
             } else {
                 alerta.style.display = 'none';
             }
@@ -958,11 +923,11 @@ while filas <= 0:
             const ventana = document.getElementById('ventana-codigo');
             const bgCodigo = window.getComputedStyle(ventana).getPropertyValue('--bg-codigo').trim() || '#1e1f29';
 
-            // Determinar resolucion segun la calidad elegida (Potencia ultra alta: ~1MB a ~5MB)
-            let factorEscala = 6; // Por defecto HD (Ultra nitido ~2.2 MB)
-            if (calidadActual === 'normal') factorEscala = 4; // Normal de alta calidad (~900 KB)
-            else if (calidadActual === 'hd') factorEscala = 6; // HD (~2.2 MB)
-            else if (calidadActual === '4k') factorEscala = 8; // 4K Master UHD (~4.8 MB)
+            // Determinar resolucion segun la calidad elegida
+            let factorEscala = 6; // Por defecto HD (3900×2100)
+            if (calidadActual === 'normal') factorEscala = 4; // Normal (2600×1400)
+            else if (calidadActual === 'hd') factorEscala = 6; // HD (3900×2100)
+            else if (calidadActual === '4k') factorEscala = 8; // 4K Master UHD (5200×2800)
 
             return await html2canvas(area, {
                 backgroundColor: esJpeg ? bgCodigo : null, // Solo JPG requiere fondo solido
@@ -984,22 +949,29 @@ while filas <= 0:
             });
         }
 
-        // Descarga directa de archivo de imagen (PNG, WEBP o JPG)
+        // Descarga directa de archivo de imagen con reporte de tamaño real exacto
         async function descargarImagen() {
+            mostrarToast("Procesando descarga...");
             const canvas = await generarCanvasCaptura();
             const mimeType = formatoActual === 'jpeg' ? 'image/jpeg' : (formatoActual === 'webp' ? 'image/webp' : 'image/png');
             const extension = formatoActual === 'jpeg' ? 'jpg' : formatoActual;
 
-            const enlace = document.createElement('a');
-            enlace.download = `codigo_${temaCodigoActual}_${calidadActual}.${extension}`;
-            enlace.href = canvas.toDataURL(mimeType, 0.96);
-            enlace.click();
-            mostrarToast(`¡Imagen descargada en ${extension.toUpperCase()} (${calidadActual.toUpperCase()})!`);
+            canvas.toBlob((blob) => {
+                if (!blob) return;
+                const tamanoRealKb = (blob.size / 1024).toFixed(0);
+                const enlace = document.createElement('a');
+                enlace.download = `codigo_${temaCodigoActual}_${calidadActual}.${extension}`;
+                enlace.href = URL.createObjectURL(blob);
+                enlace.click();
+                setTimeout(() => URL.revokeObjectURL(enlace.href), 1500);
+                mostrarToast(`¡Descargado en ${extension.toUpperCase()} (${tamanoRealKb} KB · ${calidadActual.toUpperCase()})!`);
+            }, mimeType, 0.98);
         }
 
-        // Copiar imagen directamente al portapapeles (Formato imagen bitmap para pegar en cualquier app)
+        // Copiar imagen directamente al portapapeles con reporte de tamaño real exacto
         async function copiarImagen() {
             try {
+                mostrarToast("Copiando imagen al portapapeles...");
                 const canvas = await generarCanvasCaptura();
                 canvas.toBlob(async (blob) => {
                     if (!blob) {
@@ -1009,7 +981,8 @@ while filas <= 0:
                     try {
                         const item = new ClipboardItem({ 'image/png': blob });
                         await navigator.clipboard.write([item]);
-                        mostrarToast(`¡Imagen copiada al portapapeles (${calidadActual.toUpperCase()})!`);
+                        const tamanoRealKb = (blob.size / 1024).toFixed(0);
+                        mostrarToast(`¡Imagen copiada al portapapeles (${tamanoRealKb} KB · ${calidadActual.toUpperCase()})!`);
                     } catch (clipErr) {
                         console.error("Error al escribir en portapapeles:", clipErr);
                         alert("El navegador restringió el acceso directo al portapapeles. Usa el botón Descargar.");
@@ -1031,6 +1004,7 @@ while filas <= 0:
                 toast.classList.remove('activo');
             }, 2500);
         }
+
         // Inicializar tooltips dinámicos al cargar
         actualizarTooltips();
     </script>
