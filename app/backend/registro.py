@@ -14,7 +14,7 @@ while filas <= 0:
         filas = int(input("ingrese la cantidad de filas: "))
         if filas <= 0:
             print("la cantidad de filas debe ser mayor a 0")
-    except:
+    except ValueError:
         print("error, ingrese un numero entero")
 
 # pedimos la cantidad de columnas con condicion
@@ -24,7 +24,7 @@ while columnas <= 0:
         columnas = int(input("ingrese la cantidad de columnas: "))
         if columnas <= 0:
             print("la cantidad de columnas debe ser mayor a 0")
-    except:
+    except ValueError:
         print("error, ingrese un numero entero")
 
 # pedimos los datos para la matriz a
@@ -39,7 +39,7 @@ for i in range(filas):
             try:
                 valor = float(input(f"ingrese a[{i + 1}][{j + 1}]: "))
                 es_valido = True
-            except:
+            except ValueError:
                 print("error, ingrese un numero valido")
         fila.append(valor)
     matriz_a.append(fila)
@@ -56,7 +56,7 @@ for i in range(filas):
             try:
                 valor = float(input(f"ingrese b[{i + 1}][{j + 1}]: "))
                 es_valido = True
-            except:
+            except ValueError:
                 print("error, ingrese un numero valido")
         fila.append(valor)
     matriz_b.append(fila)
@@ -142,7 +142,7 @@ elif opcion == "4":
     print(f"resultado bucles:      {c_bucles}")
     print(f"resultado comprension: {c_comprension}")
     print(f"resultado numpy:       {c_numpy}")
-    print(f"¿los 3 dieron lo mismo?: {c_bucles == c_comprension}")
+    print(f"¿los 3 dieron lo mismo?: {c_bucles == c_comprension == c_numpy}")
 
 print("=================================================================")
 print("programa finalizado.")

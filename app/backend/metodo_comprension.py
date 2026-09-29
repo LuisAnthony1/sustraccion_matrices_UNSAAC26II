@@ -12,7 +12,7 @@ while filas <= 0:
         filas = int(input("ingrese la cantidad de filas: "))
         if filas <= 0:
             print("la cantidad de filas debe ser mayor a 0")
-    except:
+    except ValueError:
         print("error, ingrese un numero entero")
 
 # pedimos la cantidad de columnas con condicion
@@ -22,7 +22,7 @@ while columnas <= 0:
         columnas = int(input("ingrese la cantidad de columnas: "))
         if columnas <= 0:
             print("la cantidad de columnas debe ser mayor a 0")
-    except:
+    except ValueError:
         print("error, ingrese un numero entero")
 
 # pedimos los elementos de la matriz a
@@ -37,7 +37,7 @@ for i in range(filas):
             try:
                 valor = float(input(f"ingrese a[{i + 1}][{j + 1}]: "))
                 es_valido = True
-            except:
+            except ValueError:
                 print("error, ingrese un numero valido")
         fila.append(valor)
     matriz_a.append(fila)
@@ -54,7 +54,7 @@ for i in range(filas):
             try:
                 valor = float(input(f"ingrese b[{i + 1}][{j + 1}]: "))
                 es_valido = True
-            except:
+            except ValueError:
                 print("error, ingrese un numero valido")
         fila.append(valor)
     matriz_b.append(fila)
